@@ -12,15 +12,23 @@ void mouseDragged() {
 
 void keyPressed() {
   if (keyCode == LEFT) {
-    pos_x_r -= 5;
+    pos_x_r -= 15;
   }
   if (keyCode == RIGHT) {
-    pos_x_r += 5;
+    pos_x_r += 15;
   }
   if (keyCode == UP) {
-    pos_y_r -= 5;
+    pos_y_r -= 15;
   }
   if (keyCode == DOWN) {
-    pos_y_r += 5;
+    pos_y_r += 15;
+  }
+
+  // visual home
+  if (key == 'h') {
+    angoloX = 0;
+    angoloY = 0;
+    angoloXpartenza = 0;
+    angoloYpartenza = 0;
   }
 }

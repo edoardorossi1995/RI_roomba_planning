@@ -1,6 +1,8 @@
 /*  Roomba che deve raggiungere un target
  Ostacoli nella mappa, anche definibili a scelta/dinamicamente
  Robot al centro (3dof / cilindrico) che sposta il target
+ 
+ Per grafo di visibilità: individuare i vertici come oggetti con coordinate note al sistema
  */
 
 
@@ -10,37 +12,63 @@ float angoloY = 0;
 float angoloXpartenza = 0;
 float angoloYpartenza = 0;
 
+// variabili stanza
+float floor_x = 600;
+float floor_y = 600;
+float floor_z = 10;
+
 // variabili SR
 float lenAxis = 50;
 float arrows = 0.1*lenAxis;
 
 // variabili disegno ostacoli
 int sides = 12;
+float xo1 = 100;
+float yo1 = 100;
+float ro1 = 50;
+float ho1 = 60;
+
+float xo2 = -100;
+float yo2 = -100;
+float ro2 = 40;
+float ho2 = 90;
+
+float[] x_obs = {xo1,xo2};  
+float[] y_obs = {yo1,yo2}; 
+float[] r_obs = {ro1,ro2};  
+float[] h_obs = {ho1,ho2};  
+
+
 
 //roomba
-
 PShape roomba;
 float pos_x_r = 0;
 float pos_y_r = 0;
+float r_r = 27;  //stima del raggio del roomba, con tolleranza, per evitare le collisioni
 
 // colors
 color BIANCO_SFONDO = #E8E8E8;
+color NERO_SFONDO = color(100);
 color RED = color(255, 0, 0);
 color GREEN = color(0, 255, 0);
 color LIGHT_BLUE = #6DCEF0;
 color ROOMBA_GREEN = #198B00;
+color WOOD_1 = #C19A6B;
+color WOOD_2 = #663300;
+color DARK_GREY = color(40);
 
 
 void setup() {
 
   fullScreen(P3D);
-  background(BIANCO_SFONDO);
+  background(NERO_SFONDO);
   roomba = loadShape("iRobot_iCreate.obj");
 }
 
 void draw() {
 
-  background(BIANCO_SFONDO);
+  background(NERO_SFONDO);
+
 
   pushMatrix();
 
@@ -51,33 +79,34 @@ void draw() {
 
   rotateX(PI/4);
   rotateZ(PI/10);
-  fill(50);
 
   directionalLight(126, 126, 126, 0, 0, -1);
   ambientLight(102, 102, 102);
 
   //creazione tavolo da lavoro
-  box(600, 600, 10);
+  fill(WOOD_1);
+  box(floor_x, floor_y, floor_z);
 
   // posizionamento sulla superficie del tavolo
   translate(0, 0, 5);
   SR3D();
 
-  Obstacle obs1 = new Obstacle(100, 100,50,60);
-  fill(10, 0, 255);
-  stroke(155, 0, 50);
+  Obstacle obs1 = new Obstacle(xo1, yo1, ro1, ho1);
+  fill(10, 100, 255);
+  stroke(0);
+
+  Obstacle obs2 = new Obstacle(xo2, yo2, ro2, ho2);
 
   pushMatrix();
   translate(0, 0, 8);
   shape(roomba, pos_x_r, pos_y_r);
-  roomba.setFill(ROOMBA_GREEN);
+  roomba.setFill(DARK_GREY);
   popMatrix();
   fill(0);
   noStroke();
 
-
-
-
+  global_collision_roomba(pos_x_r, pos_y_r, r_r, x_obs, y_obs, r_obs);
+  
 
   popMatrix();
 }
