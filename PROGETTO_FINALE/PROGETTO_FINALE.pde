@@ -38,6 +38,9 @@ float[] y_obs = {yo1,yo2};
 float[] r_obs = {ro1,ro2};  
 float[] h_obs = {ho1,ho2};  
 
+int id_o1 = 1;
+int id_o2 = 2;
+
 
 
 //roomba
@@ -91,11 +94,11 @@ void draw() {
   translate(0, 0, 5);
   SR3D();
 
-  Obstacle obs1 = new Obstacle(xo1, yo1, ro1, ho1);
+  Obstacle obs1 = new Obstacle(xo1, yo1, ro1, ho1,id_o1);
   fill(10, 100, 255);
   stroke(0);
 
-  Obstacle obs2 = new Obstacle(xo2, yo2, ro2, ho2);
+  Obstacle obs2 = new Obstacle(xo2, yo2, ro2, ho2,id_o2);
 
   pushMatrix();
   translate(0, 0, 8);

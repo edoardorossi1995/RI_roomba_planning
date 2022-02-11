@@ -18,6 +18,9 @@ void SR3D(){
   
 }
 
+
+/* presa dal web: costruisce prismi a n facce */
+
 void drawCylinder( int sides, float r, float h)
     {
         float angle = 360 / sides;
@@ -31,7 +34,9 @@ void drawCylinder( int sides, float r, float h)
             vertex( x, y, -halfHeight);
         }
         endShape(CLOSE);
-
+        
+        /* qui bisognerebbe salvare i vertex*/
+    
         // draw bottom of the tube
         beginShape();
         for (int i = 0; i < sides; i++) {

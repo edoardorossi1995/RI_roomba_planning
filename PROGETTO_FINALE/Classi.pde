@@ -4,8 +4,9 @@ class Obstacle {
   public float h_obs;
   public float pos_x_obs;
   public float pos_y_obs;
+  private int id_num;
 
-  Obstacle(float pos_x, float pos_y, float r_o, float h_o) {
+  Obstacle(float pos_x, float pos_y, float r_o, float h_o, int id) {
 
     pushMatrix();
 
@@ -18,7 +19,12 @@ class Obstacle {
     pos_x_obs = pos_x;
     pos_y_obs = pos_y;
     
-
+    
+    
     popMatrix();
   }
+  
+  public int getID(){
+  return this.id_num;
+}
 }
