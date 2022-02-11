@@ -1,5 +1,5 @@
 class Obstacle {
-  
+
   public float r_obs;
   public float h_obs;
   public float pos_x_obs;
@@ -12,19 +12,22 @@ class Obstacle {
 
     translate(pos_x, pos_y, h_o/2);
     fill(WOOD_2);
-    drawCylinder(sides, r_o, h_o);
     
+    box(r_o,r_o,h_o);
+    
+    //drawCylinder(sides, r_o, h_o);
+
     r_obs = r_o;
     h_obs = h_o;
     pos_x_obs = pos_x;
     pos_y_obs = pos_y;
-    
-    
-    
+    id_num = id;
+
+
     popMatrix();
   }
-  
-  public int getID(){
-  return this.id_num;
-}
+
+  public int getID() {
+    return this.id_num;
+  }
 }

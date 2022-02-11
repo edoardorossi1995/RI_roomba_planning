@@ -22,7 +22,7 @@ float lenAxis = 50;
 float arrows = 0.1*lenAxis;
 
 // variabili disegno ostacoli
-int sides = 12;
+int sides = 6;
 float xo1 = 100;
 float yo1 = 100;
 float ro1 = 50;
@@ -33,14 +33,17 @@ float yo2 = -100;
 float ro2 = 40;
 float ho2 = 90;
 
-float[] x_obs = {xo1,xo2};  
-float[] y_obs = {yo1,yo2}; 
-float[] r_obs = {ro1,ro2};  
-float[] h_obs = {ho1,ho2};  
+float[] x_obs = {xo1, xo2};
+float[] y_obs = {yo1, yo2};
+float[] r_obs = {ro1, ro2};
+float[] h_obs = {ho1, ho2};
 
 int id_o1 = 1;
 int id_o2 = 2;
 
+//variabili scanner
+float alpha = 0;
+float laser_length = 600*sqrt(2);
 
 
 //roomba
@@ -94,11 +97,11 @@ void draw() {
   translate(0, 0, 5);
   SR3D();
 
-  Obstacle obs1 = new Obstacle(xo1, yo1, ro1, ho1,id_o1);
+  Obstacle obs1 = new Obstacle(xo1, yo1, ro1, ho1, id_o1);
   fill(10, 100, 255);
   stroke(0);
 
-  Obstacle obs2 = new Obstacle(xo2, yo2, ro2, ho2,id_o2);
+  Obstacle obs2 = new Obstacle(xo2, yo2, ro2, ho2, id_o2);
 
   pushMatrix();
   translate(0, 0, 8);
@@ -106,10 +109,13 @@ void draw() {
   roomba.setFill(DARK_GREY);
   popMatrix();
   fill(0);
-  noStroke();
 
-  global_collision_roomba(pos_x_r, pos_y_r, r_r, x_obs, y_obs, r_obs);
-  
+
+  //global_collision_roomba(pos_x_r, pos_y_r, r_r, x_obs, y_obs, r_obs);
+  strokeWeight(3);
+  scan(pos_x_r, pos_y_r, laser_length, RED);
+  fill(0);
 
   popMatrix();
+  noStroke();
 }
