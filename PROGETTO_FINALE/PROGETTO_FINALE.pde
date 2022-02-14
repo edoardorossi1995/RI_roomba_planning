@@ -44,7 +44,10 @@ int id_o2 = 2;
 //variabili scanner
 float alpha = 0;
 float laser_length = 600*sqrt(2);
-
+float[] x_prev = {0,0};   //coordinate dei punti i-1,i-2 RISPETTO A SR0
+float[] y_prev = {0,0};
+float[] x_vert = {0,0,0,0};
+float[] y_vert = {0,0,0,0};
 
 //roomba
 PShape roomba;
@@ -114,6 +117,8 @@ void draw() {
   //global_collision_roomba(pos_x_r, pos_y_r, r_r, x_obs, y_obs, r_obs);
   strokeWeight(3);
   scan(pos_x_r, pos_y_r, laser_length, RED);
+  fill(255,0,0);
+  circle(x_vert[0], y_vert[0], 30);
   fill(0);
 
   popMatrix();

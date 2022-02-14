@@ -38,89 +38,85 @@ boolean global_collision_roomba(float x_r, float y_r, float r_r, float[] x_obs, 
 
 void scan(float x, float y, float len_max, color colore) {
 
-
-  float sign_x =1;
-  float sign_y=1;
+  float xi,yi, xi_0,yi_0;
   float len_x = floor_x/2;
   float len_y = floor_y/2;
-  float x_cap = floor_x/2;
-  float y_cap = floor_y/2;
-  float m1 = (len_y)/(len_x);
+  
+  
 
-
-
-  // direzione del laser
-  //len_max = len_max - sqrt(pow(x,2) + pow(y,2));
-
-
-  if (alpha >=0 && alpha < PI/2) {
-    sign_x = 1;
-    sign_y = 1;
-
-    //len_x = min((x+cos(alpha)*len_max), (floor_x)/2);
-    //len_y = min((y+sin(alpha)*len_max), (floor_y)/2);
-  } else if (alpha >= PI/2 && alpha < PI) {
-    sign_x = -1;
-    sign_y = 1;
-
-    //len_x = max((x+cos(alpha)*len_max), (-floor_x)/2);
-    //len_y = min((y+sin(alpha)*len_max), (floor_y)/2);
-  } else if (alpha >= PI && alpha < 3*PI/2) {
-    sign_x = -1;
-    sign_y = -1;
-
-    //len_x = x+cos(alpha)*len_max;
-    //len_y = y+sin(alpha)*len_max;
-  } else /* (alpha >= 3*PI/2 && alpha < 2*PI)*/ {
-    sign_x = 1;
-    sign_y = -1;
-
-    //len_x = min((x+cos(alpha)*len_max), (floor_x)/2);
-    //len_y = max((y+sin(alpha)*len_max), (-floor_y)/2);
-  }
-
-  len_x = (x+cos(alpha)*len_max);
-  len_y = (y+sin(alpha)*len_max);
-
-  //if (len_y > len_x ) {
-
-  //  y_cap = floor_y/2;
-  //  x_cap = sqrt(pow(y_cap/sin(alpha), 2)-pow(y_cap, 2));
-  //} else if (len_y == len_x) {
-  //  y_cap = floor_y/2;
-  //  x_cap = floor_x/2;
-  //} else {  //
-
-  //  x_cap = floor_x/2;
-  //  y_cap = sqrt(pow(x_cap/sin(alpha), 2)-pow(x_cap, 2));
-  //}
-
+  pushMatrix();
+  translate(x,y);     //mi pongo nel SR del roomba
+  len_x = cos(alpha)*len_max;   
+  len_y = sin(alpha)*len_max;
 
 
   stroke(colore);
-  line(x, y, len_x, len_y);
   stroke(#6DCEF0);
 
   fill(255);
   stroke(255);
   circle(len_x, len_y, 5);
+  
+  //xi,yi sono le coordinate del punto verde sul foglio appunti progetto
+  //xi,yi sono espresse rispetto a SRroomba 
+  if ((alpha>=0 && alpha<=PI/2) || (alpha>3*PI/2 && alpha<2*PI)){
+    xi = 300 - x;
+    yi = tan(alpha)*xi;
+    if (yi<(-300 - y)){
+      yi = -300-y;
+      xi = yi/tan(alpha);
+    }
+    if (yi > (300-y)){
+      yi = 300-y;
+      xi = yi/tan(alpha);
+    }
+  }
+  else{
+    xi = - 300 - x;
+    yi = tan(alpha)*xi;
+    if (yi > (300-y)){
+      yi = 300-y;
+      xi = yi/tan(alpha);
+    }
+    if (yi<(-300 - y)){
+      yi = -300-y;
+      xi = yi/tan(alpha);
+    }
+  }
 
   stroke(0);
-  float xx = 300;
-  line(x, y, xx, m1*xx);
+  
+  circle(xi,yi, 5);
+  line(0, 0, xi, yi);
+  
+  xi_0 = xi + x;        //coordinate di xi rispetto a SR0
+  yi_0 = yi + y;
+  //detect_vert(xi_0, yi_0);
+  
+  
+  
   stroke(255);
-  //line(x, y, xx, m2*xx);
   noStroke();
-
-
-
+  popMatrix(); //mi riporto alle coordinate inerziali
   fill(0);
+  alpha = (alpha + 0.01) %(2*PI);
+}
 
-  alpha = alpha + 0.008;
-  if (alpha > 2*PI) {
-    alpha = alpha - 2*PI;
+
+void detect_vert(float xi, float yi){
+  float m_i2_i1, m_i1_i;
+  
+  m_i2_i1 = (y_prev[1]-y_prev[0])/(x_prev[1]-x_prev[0]);
+  m_i1_i = (yi - y_prev[1])/(xi - x_prev[1]);
+  
+  if (m_i1_i > m_i2_i1){
+    x_vert[0] = x_prev[1];
+    y_vert[0] = y_prev[1];
   }
-  //if (alpha>=3*PI/4) {
-  //  alpha = PI/4;
-  //}
+  
+  x_prev[0] = x_prev[1];
+  y_prev[0] = y_prev[1];
+  x_prev[1] = xi;
+  y_prev[1] = yi;
+  
 }
