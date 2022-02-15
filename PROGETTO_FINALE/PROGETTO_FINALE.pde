@@ -17,6 +17,9 @@ float floor_x = 600;
 float floor_y = 600;
 float floor_z = 10;
 
+//segmenti - pareti stanza
+
+
 // variabili SR
 float lenAxis = 50;
 float arrows = 0.1*lenAxis;
@@ -41,10 +44,17 @@ float[] h_obs = {ho1, ho2};
 int id_o1 = 1;
 int id_o2 = 2;
 
+
 //variabili scanner
 float alpha = 0;
 float laser_length = 600*sqrt(2);
+float[] x_prev = {0,0};   //coordinate dei punti i-1,i-2 RISPETTO A SR0
+float[] y_prev = {0,0};
+float[] x_vert = {0,0,0,0};
+float[] y_vert = {0,0,0,0};
 
+float intersectionX;
+float intersectionY;
 
 //roomba
 PShape roomba;
@@ -68,7 +78,7 @@ void setup() {
 
   fullScreen(P3D);
   background(NERO_SFONDO);
-  roomba = loadShape("iRobot_iCreate.obj");
+  //roomba = loadShape("iRobot_iCreate.obj");
 }
 
 void draw() {
@@ -97,23 +107,26 @@ void draw() {
   translate(0, 0, 5);
   SR3D();
 
-  Obstacle obs1 = new Obstacle(xo1, yo1, ro1, ho1, id_o1);
+  Obstacle obs1 = new Obstacle(xo1, yo1, ro1, ho1, id_o1,PI/4);
   fill(10, 100, 255);
   stroke(0);
 
-  Obstacle obs2 = new Obstacle(xo2, yo2, ro2, ho2, id_o2);
+  Obstacle obs2 = new Obstacle(xo2, yo2, ro2, ho2, id_o2,PI/8);
 
   pushMatrix();
   translate(0, 0, 8);
-  shape(roomba, pos_x_r, pos_y_r);
-  roomba.setFill(DARK_GREY);
+  fill(DARK_GREY);
+  circle(pos_x_r,pos_y_r,r_r);
+  /*shape(roomba, pos_x_r, pos_y_r);
+  roomba.setFill(DARK_GREY);*/
   popMatrix();
   fill(0);
 
 
   //global_collision_roomba(pos_x_r, pos_y_r, r_r, x_obs, y_obs, r_obs);
   strokeWeight(3);
-  scan(pos_x_r, pos_y_r, laser_length, RED);
+  //scan(pos_x_r, pos_y_r, laser_length, RED);
+  
   fill(0);
 
   popMatrix();

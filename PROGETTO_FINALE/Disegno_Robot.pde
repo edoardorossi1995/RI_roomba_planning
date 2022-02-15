@@ -35,7 +35,6 @@ void drawCylinder( int sides, float r, float h)
         }
         endShape(CLOSE);
         
-        /* qui bisognerebbe salvare i vertex*/
     
         // draw bottom of the tube
         beginShape();
