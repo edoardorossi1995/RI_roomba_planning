@@ -116,7 +116,7 @@ void draw() {
   pushMatrix();
   translate(0, 0, 8);
   fill(DARK_GREY);
-  circle(pos_x_r,pos_y_r,r_r);
+  circle(pos_x_r,pos_y_r,r_r); //roomba stilizzato
   /*shape(roomba, pos_x_r, pos_y_r);
   roomba.setFill(DARK_GREY);*/
   popMatrix();
