@@ -22,13 +22,19 @@ void scan(float x, float y, float len_max, color colore) {
   //xi,yi sono le coordinate del punto verde sul foglio appunti progetto
   //xi,yi sono espresse rispetto a SRroomba
 
-  if (intersectionObstacles(x, y, len_x, len_y)) {
-    xi = intersectionX;
-    yi = intersectionY;
+  float[] intersection_obstacles = intersectionObstacles(x, y, len_x, len_y);
+  float[] intersection_wall = intersectionWall(x, y, len_x, len_y);
+
+
+  if (intersection_obstacles[0] == 1) {
+    xi = intersection_obstacles[1];
+    yi = intersection_obstacles[2];
+    println(xi,yi);
   } else {
-    intersectionWall(x, y, len_x, len_y);
-    xi = intersectionX;
-    yi = intersectionY;
+    println("wall");
+    //intersection_wall[0];  dal momento che se non interseca un ostacolo  SICURAMENTE ci sarà un intersezione col bordo
+    xi = intersection_wall[1];
+    yi = intersection_wall[2];
   }
 
 

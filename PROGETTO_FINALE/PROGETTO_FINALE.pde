@@ -64,8 +64,8 @@ float[] y_prev = {0, 0};
 float[] x_vert = {0, 0, 0, 0};
 float[] y_vert = {0, 0, 0, 0};
 
-float intersectionX;
-float intersectionY;
+//float intersectionX;
+//float intersectionY;
 
 //roomba
 PShape roomba;
