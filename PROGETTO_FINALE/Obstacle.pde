@@ -25,10 +25,8 @@ class Obstacle {
 
 
     box(r_o, r_o, h_o);
-    //line(0,0, 100,0); //asse x oggetto
-    //stroke(255);
-    //line(0,0,0,100); //asse y oggetto
-    //circle(-r_o/2,-r_o/2, 20);
+
+
     //coordinate rispetto a SR ostacolo
     vert_array_SR_ob[0] = -r_o/2;
     vert_array_SR_ob[1] = -r_o/2;
@@ -47,7 +45,7 @@ class Obstacle {
     vert_SR0[5] = (-r_o/2)*(-cos(beta)+sin(beta))+pos_y;
     vert_SR0[6] = (-r_o/2)*(-cos(beta)+sin(beta))+pos_x;
     vert_SR0[7] = (r_o/2)*(cos(beta)+sin(beta))+pos_y;
-    
+
 
 
 
@@ -62,18 +60,30 @@ class Obstacle {
     id_num = id;
     phi = beta;
 
-    /*if (!obstacle_array.contains(this)) {
-     obstacle_array.add(this);
-     }*/
+
+
 
 
     popMatrix();  //torno in SR inerziale
-    
-    circle(vert_SR0[2],vert_SR0[3],50);
-
   }
 
   public int getID() {
     return this.id_num;
   }
+}
+
+
+void obstacle_factory(float pos_x, float pos_y, float r_o, float h_o, int id, float beta) {
+
+  Obstacle ob = new Obstacle(pos_x, pos_y, r_o, h_o, id, beta);
+
+  int num_ob = obstacle_ArrayList.size();
+
+  if (num_ob < MAX_OB) {
+    obstacle_ArrayList.add(ob);
+  }
+
+  /*if (obstacle_ArrayList.size()<20000) {
+    println(obstacle_ArrayList.size());
+  }*/
 }
