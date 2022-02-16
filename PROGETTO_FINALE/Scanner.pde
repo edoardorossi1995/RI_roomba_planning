@@ -29,7 +29,7 @@ void scan(float x, float y, float len_max, color colore) {
   if (intersection_obstacles[0] == 1) {
     xi = intersection_obstacles[1];
     yi = intersection_obstacles[2];
-    println(xi,yi);
+    println(xi, yi);
   } else {
     println("wall");
     //intersection_wall[0];  dal momento che se non interseca un ostacolo  SICURAMENTE ci sarà un intersezione col bordo
@@ -59,26 +59,32 @@ void scan(float x, float y, float len_max, color colore) {
   popMatrix(); //mi riporto alle coordinate inerziali
 
   fill(0, 0, 255);
-  //circle(x_vert[0], y_vert[0], 30);  // vertice rilevato
+  circle(x_vert, y_vert, 30);  // vertice rilevato
+
 
   fill(0);
-  alpha = (alpha + 0.005) %(2*PI);
+  alpha = (alpha - 0.001) %(2*PI);
 }
 
 void detect_vert(float xi, float yi) {
 
   float m_i2_i1, m_i1_i;
+  float threshold = 1.0/10;
+  
+  
 
   m_i2_i1 = (y_prev[1]-y_prev[0])/(x_prev[1]-x_prev[0]);
   m_i1_i = (yi - y_prev[1])/(xi - x_prev[1]);
 
-  if (m_i1_i > m_i2_i1) {
-    x_vert[0] = x_prev[1];
-    y_vert[0] = y_prev[1];
-  }
+  /* il valore 500 come upper bound è per trattare le coppie di punti a pendenza infinita */
+  if (abs(m_i1_i - m_i2_i1)> threshold && abs(m_i1_i - m_i2_i1) < 500 ) {
+    
+      x_vert = x_prev[1];
+      y_vert = y_prev[1];
+    }
 
-  x_prev[0] = x_prev[1];
-  y_prev[0] = y_prev[1];
-  x_prev[1] = xi;
-  y_prev[1] = yi;
-}
+    x_prev[0] = x_prev[1];
+    y_prev[0] = y_prev[1];
+    x_prev[1] = xi;
+    y_prev[1] = yi;
+  }

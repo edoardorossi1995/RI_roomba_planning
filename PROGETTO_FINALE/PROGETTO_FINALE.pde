@@ -55,23 +55,20 @@ int id_o2 = 2;
 int id_o3 = 3;
 
 
-
 //variabili scanner
 float alpha = 0;
 float laser_length = 600*sqrt(2);
 float[] x_prev = {0, 0};   //coordinate dei punti i-1,i-2 RISPETTO A SR0
 float[] y_prev = {0, 0};
-float[] x_vert = {0, 0, 0, 0};
-float[] y_vert = {0, 0, 0, 0};
+float x_vert, y_vert;
 
-//float intersectionX;
-//float intersectionY;
 
 //roomba
 PShape roomba;
 float pos_x_r = 0;
 float pos_y_r = 0;
 float r_r = 27;  //stima del raggio del roomba, con tolleranza, per evitare le collisioni
+
 
 // colors
 color BIANCO_SFONDO = #E8E8E8;
