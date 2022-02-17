@@ -69,6 +69,18 @@ float pos_x_r = 0;
 float pos_y_r = 0;
 float r_r = 27;  //stima del raggio del roomba, con tolleranza, per evitare le collisioni
 
+//parametri tree
+float x_home = pos_x_r;
+float y_home = pos_y_r;
+
+Node first_root = new Node("source", x_home, y_home);
+Tree tree = new Tree(first_root);
+ArrayList<Node> nodes = new ArrayList<Node>();
+Node current_node = first_root;
+
+float r_node = 10;
+
+
 
 // colors
 color BIANCO_SFONDO = #E8E8E8;
@@ -137,6 +149,9 @@ void draw() {
   //global_collision_roomba(pos_x_r, pos_y_r, r_r, x_obs, y_obs, r_obs);
   strokeWeight(3);
   scan(pos_x_r, pos_y_r, laser_length, RED);
+  make_tree(current_node);
+  print_tree();
+  //movimento => cambio nodo 
 
   fill(0);
 

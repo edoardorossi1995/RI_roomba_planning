@@ -79,6 +79,7 @@ void detect_vert(float xi, float yi) {
   /* il valore 500 come upper bound è per trattare le coppie di punti a pendenza infinita */
   if (abs(m_i1_i - m_i2_i1)> threshold && abs(m_i1_i - m_i2_i1) < 500 ) {
     
+    
       x_vert = x_prev[1];
       y_vert = y_prev[1];
     }
