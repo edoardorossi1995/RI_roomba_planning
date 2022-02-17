@@ -29,9 +29,9 @@ void scan(float x, float y, float len_max, color colore) {
   if (intersection_obstacles[0] == 1) {
     xi = intersection_obstacles[1];
     yi = intersection_obstacles[2];
-    println(xi, yi);
+    //println(xi, yi);
   } else {
-    println("wall");
+    //println("wall");
     //intersection_wall[0];  dal momento che se non interseca un ostacolo  SICURAMENTE ci sarà un intersezione col bordo
     xi = intersection_wall[1];
     yi = intersection_wall[2];
@@ -63,7 +63,7 @@ void scan(float x, float y, float len_max, color colore) {
 
 
   fill(0);
-  alpha = (alpha - 0.001) %(2*PI);
+  alpha = (alpha - 0.008) %(2*PI);
 }
 
 void detect_vert(float xi, float yi) {

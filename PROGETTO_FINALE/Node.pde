@@ -12,7 +12,6 @@ class Node {
     label=_label;
     x=_x;
     y=_y;
-    r=5;
   }
 
   void addLink(Node n) {

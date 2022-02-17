@@ -73,11 +73,9 @@ float r_r = 27;  //stima del raggio del roomba, con tolleranza, per evitare le c
 float x_home = pos_x_r;
 float y_home = pos_y_r;
 
-Node first_root = new Node("source", x_home, y_home);
-Tree tree = new Tree(first_root);
-ArrayList<Node> nodes = new ArrayList<Node>();
-Node current_node = first_root;
-
+Node current_node;
+Tree tree;
+ArrayList<Node> nodes;
 float r_node = 10;
 
 
@@ -99,6 +97,12 @@ void setup() {
   fullScreen(P3D);
   background(NERO_SFONDO);
   //roomba = loadShape("iRobot_iCreate.obj");
+
+  Node first_root = new Node("source", x_home, y_home);
+  nodes = new ArrayList<Node>();
+  tree = new Tree(first_root);
+  nodes = new ArrayList<Node>();
+  current_node = first_root;
 }
 
 void draw() {
@@ -151,7 +155,9 @@ void draw() {
   scan(pos_x_r, pos_y_r, laser_length, RED);
   make_tree(current_node);
   print_tree();
-  //movimento => cambio nodo 
+  //movimento => cambio nodo
+  println(nodes.size());
+
 
   fill(0);
 
