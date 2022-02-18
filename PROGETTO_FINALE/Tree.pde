@@ -12,7 +12,16 @@ class Tree  {
       nodes.add(node);
     }
   }
-
+  
+  void removeNode(int index){
+    Node n = nodes.get(index);
+    for (Node linked_node_i : n.getIncomingLinks()){
+      linked_node_i.getIncomingLinks().remove(n);
+    }
+    nodes.remove(index);
+  }
+  
+  
   Node getRoot() {
     return root;
   }
@@ -42,7 +51,4 @@ class Tree  {
     nodes.add(child);
     linkNodes(parent, child);
   }
-  
-  
-  
 }

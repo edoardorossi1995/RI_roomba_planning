@@ -38,15 +38,16 @@ void scan(float x, float y, float len_max, color colore) {
   }
 
 
-  stroke(0, 255, 0);
-  line(0, 0, xi, yi);
+  //stroke(0, 255, 0);
+  //line(0, 0, xi, yi);
 
   stroke(255);
   circle(xi, yi, 5);
   stroke(180, 0, 0);
 
   line(0, 0, xi, yi);
-  //println(xi, yi);
+  stroke(0,0,255);
+  //line(0, 0, len_x, len_y);
 
   xi_0 = xi + x;        //coordinate di xi rispetto a SR0
   yi_0 = yi + y;
@@ -63,7 +64,7 @@ void scan(float x, float y, float len_max, color colore) {
 
 
   fill(0);
-  alpha = (alpha + PI/num_iter) %(2*PI);
+  alpha = (alpha + (2*PI)/num_iter) %(2*PI);
 }
 
 void detect_vert(float xi, float yi) {
@@ -71,8 +72,8 @@ void detect_vert(float xi, float yi) {
   float m_i2_i1, m_i1_i;
   float threshold = 1.0/100;
 
-  /* condizioni di verticalità*/
-  
+  /* condizioni di verticalità NON FUNZIONA FIXARE*/
+
   if (x_prev[1] == x_prev[0]) {
     m_i2_i1 = 1000;
   } else {
@@ -86,7 +87,8 @@ void detect_vert(float xi, float yi) {
   }
 
   /* il valore 500 come upper bound è per trattare le coppie di punti a pendenza infinita */
-  if (abs(m_i1_i - m_i2_i1)> threshold ) { 
+  if (abs(m_i1_i - m_i2_i1)> threshold && (alpha >= 2*(2*PI)/num_iter)) { 
+    vertex_found = true;
     x_vert = x_prev[1];
     y_vert = y_prev[1];
   }

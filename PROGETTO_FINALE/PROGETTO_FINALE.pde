@@ -56,13 +56,14 @@ int id_o3 = 3;
 
 
 //variabili scanner
-int num_iter = 500;
-float start_alpha = PI/num_iter;
+int num_iter = 1500;
+float start_alpha = (2*PI)/num_iter;
 float alpha = start_alpha;
 float laser_length = 600*sqrt(2);
 float[] x_prev = {0, 0};   //coordinate dei punti i-1,i-2 RISPETTO A SR0
 float[] y_prev = {0, 0};
 float x_vert, y_vert;
+boolean vertex_found = false;
 
 
 //roomba
@@ -79,7 +80,7 @@ Node current_node;
 Tree tree;
 ArrayList<Node> nodes;
 float r_node = 10;
-
+int exploring_node = 0;
 boolean token = true;
 
 
@@ -105,6 +106,9 @@ void setup() {
   nodes = new ArrayList<Node>();
   tree = new Tree(first_root);
   current_node = first_root;
+  //for (Node n : nodes){
+  //  println(n.label);
+  //}
 }
 
 void draw() {
@@ -156,21 +160,25 @@ void draw() {
   strokeWeight(3);
   if (token) {
     scan(pos_x_r, pos_y_r, laser_length, RED);
-    make_tree(current_node);
+    if (vertex_found){
+      //aggiungo nodo solo quando trovo un nuovo vertice
+      make_tree(current_node);
+      println(nodes.size());
+      vertex_found = false;
+    }
     print_tree();
     if (alpha >= 0 && alpha <start_alpha) {  //ciclo di scan completo
       token = false;
     }
   } else {
-    int i = nodes.size();
-    current_node = nodes.get(i-1);
+    exploring_node++;
+    current_node = nodes.get(exploring_node);
     pos_x_r = current_node.x;
     pos_y_r = current_node.y;
     token = true;
   }
 
   //movimento => cambio nodo
-  println(nodes.size());
 
 
 
