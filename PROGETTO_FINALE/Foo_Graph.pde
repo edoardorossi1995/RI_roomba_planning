@@ -2,7 +2,7 @@ void make_tree(Node current) {
 
   int s = nodes.size();
   String s_lab = String.valueOf(s);
-  float toll = 5;
+  float toll = 8;
 
   Node n = new Node(s_lab, x_vert, y_vert);
 

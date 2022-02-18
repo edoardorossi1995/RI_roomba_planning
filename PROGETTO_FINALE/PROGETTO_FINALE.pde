@@ -31,17 +31,17 @@ int sides = 6;
 float xo1 = 100;
 float yo1 = 100;
 float ro1 = 150;
-float ho1 = 60;
+float ho1 = 10;
 
 float xo2 = -100;
 float yo2 = -100;
 float ro2 = 90;
-float ho2 = 90;
+float ho2 = 10;
 
 float xo3 = 100;
 float yo3 = -100;
 float ro3 = 100;
-float ho3 = 30;
+float ho3 = 10;
 
 float[] x_obs = {xo1, xo2, xo3};
 float[] y_obs = {yo1, yo2, yo3};
@@ -65,8 +65,8 @@ float x_vert, y_vert;
 
 //roomba
 PShape roomba;
-float pos_x_r = 0;
-float pos_y_r = 0;
+float pos_x_r = -180;
+float pos_y_r = 100;
 float r_r = 27;  //stima del raggio del roomba, con tolleranza, per evitare le collisioni
 
 //parametri tree
@@ -132,9 +132,9 @@ void draw() {
   translate(0, 0, 5);
   SR3D();
 
-  obstacle_factory(xo1, yo1, ro1, ho1, id_o1, 2*PI);
-  obstacle_factory(xo2, yo2, ro2, ho2, id_o2, PI/4);
-  obstacle_factory(xo3, yo3, ro3, ho3, id_o3, -PI/5);
+  obstacle_factory(xo1, yo1, ro1, ho1, id_o1, PI);
+  obstacle_factory(xo2, yo2, ro2, ho2, id_o2, PI);
+  obstacle_factory(xo3, yo3, ro3, ho3, id_o3, -PI);
 
 
   fill(10, 100, 255);
@@ -158,7 +158,8 @@ void draw() {
   print_tree();
   //movimento => cambio nodo
   println(nodes.size());
-
+  
+  
 
   fill(0);
 

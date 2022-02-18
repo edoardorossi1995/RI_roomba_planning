@@ -69,23 +69,30 @@ void scan(float x, float y, float len_max, color colore) {
 void detect_vert(float xi, float yi) {
 
   float m_i2_i1, m_i1_i;
-  float threshold = 1.0/10;
-  
-  
+  float threshold = 1.0/100;
 
-  m_i2_i1 = (y_prev[1]-y_prev[0])/(x_prev[1]-x_prev[0]);
-  m_i1_i = (yi - y_prev[1])/(xi - x_prev[1]);
+  /* condizioni di verticalità*/
+  
+  if (x_prev[1] == x_prev[0]) {
+    m_i2_i1 = 1000;
+  } else {
+    m_i2_i1 = (y_prev[1]-y_prev[0])/(x_prev[1]-x_prev[0]);
+  }
+
+  if (x_prev[1] == xi) {
+    m_i1_i = 1000;
+  } else {
+    m_i1_i = (yi - y_prev[1])/(xi - x_prev[1]);
+  }
 
   /* il valore 500 come upper bound è per trattare le coppie di punti a pendenza infinita */
-  if (abs(m_i1_i - m_i2_i1)> threshold && abs(m_i1_i - m_i2_i1) < 500 ) {
-    
-    
-      x_vert = x_prev[1];
-      y_vert = y_prev[1];
-    }
-
-    x_prev[0] = x_prev[1];
-    y_prev[0] = y_prev[1];
-    x_prev[1] = xi;
-    y_prev[1] = yi;
+  if (abs(m_i1_i - m_i2_i1)> threshold ) { 
+    x_vert = x_prev[1];
+    y_vert = y_prev[1];
   }
+
+  x_prev[0] = x_prev[1];
+  y_prev[0] = y_prev[1];
+  x_prev[1] = xi;
+  y_prev[1] = yi;
+}
