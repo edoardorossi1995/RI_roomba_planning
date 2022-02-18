@@ -133,9 +133,9 @@ void draw() {
   translate(0, 0, 5);
   SR3D();
 
-  obstacle_factory(xo1, yo1, ro1, ho1, id_o1, PI);
-  obstacle_factory(xo2, yo2, ro2, ho2, id_o2, PI);
-  obstacle_factory(xo3, yo3, ro3, ho3, id_o3, -PI);
+  obstacle_factory(xo1, yo1, ro1, ho1, id_o1, PI/3);
+  obstacle_factory(xo2, yo2, ro2, ho2, id_o2, PI/4);
+  obstacle_factory(xo3, yo3, ro3, ho3, id_o3, -PI/6);
 
 
   fill(10, 100, 255);
@@ -162,7 +162,8 @@ void draw() {
       token = false;
     }
   } else {
-    current_node = nodes.get(13);
+    int i = nodes.size();
+    current_node = nodes.get(i-1);
     pos_x_r = current_node.x;
     pos_y_r = current_node.y;
     token = true;

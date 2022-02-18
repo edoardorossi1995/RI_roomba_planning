@@ -53,24 +53,24 @@ class Obstacle {
     vert_SR0[7] = (r_o/2)*(cos(beta)+sin(beta))+pos_y;
 
 
-    vert_array_SR_ob_ph[0] = -r_o/2-r_r/2;
-    vert_array_SR_ob_ph[1] = -r_o/2-r_r/2;
-    vert_array_SR_ob_ph[2] = r_o/2+r_r/2;
-    vert_array_SR_ob_ph[3] = -r_o/2-r_r/2;
-    vert_array_SR_ob_ph[4] = -r_o/2-r_r/2;
-    vert_array_SR_ob_ph[5] = r_o/2+r_r/2;
-    vert_array_SR_ob_ph[6] = r_o/2+r_r/2;
-    vert_array_SR_ob_ph[7] = r_o/2+r_r/2;
+    //vert_array_SR_ob_ph[0] = -r_o/2-r_r/2;
+    //vert_array_SR_ob_ph[1] = -r_o/2-r_r/2;
+    //vert_array_SR_ob_ph[2] = r_o/2+r_r/2;
+    //vert_array_SR_ob_ph[3] = -r_o/2-r_r/2;
+    //vert_array_SR_ob_ph[4] = -r_o/2-r_r/2;
+    //vert_array_SR_ob_ph[5] = r_o/2+r_r/2;
+    //vert_array_SR_ob_ph[6] = r_o/2+r_r/2;
+    //vert_array_SR_ob_ph[7] = r_o/2+r_r/2;
     
     
-    vert_SR0_ph[0] = (-r_o/2-r_r/2)*(cos(beta)-sin(beta))+pos_x;
-    vert_SR0_ph[1] = (-r_o/2-r_r/2)*(cos(beta)+sin(beta))+pos_y;
-    vert_SR0_ph[2] = (r_o/2+r_r/2)*(cos(beta)+sin(beta))+pos_x;
-    vert_SR0_ph[3] = (-r_o/2-r_r/2)*(cos(beta)-sin(beta))+pos_y;
-    vert_SR0_ph[4] = (-r_o/2-r_r/2)*(cos(beta)+sin(beta))+pos_x;
-    vert_SR0_ph[5] = (-r_o/2-r_r/2)*(-cos(beta)+sin(beta))+pos_y;
-    vert_SR0_ph[6] = (-r_o/2-r_r/2)*(-cos(beta)+sin(beta))+pos_x;
-    vert_SR0_ph[7] = (r_o/2+r_r/2)*(cos(beta)+sin(beta))+pos_y;
+    //vert_SR0_ph[0] = (-r_o/2-r_r/2)*(cos(beta)-sin(beta))+pos_x;
+    //vert_SR0_ph[1] = (-r_o/2-r_r/2)*(cos(beta)+sin(beta))+pos_y;
+    //vert_SR0_ph[2] = (r_o/2+r_r/2)*(cos(beta)+sin(beta))+pos_x;
+    //vert_SR0_ph[3] = (-r_o/2-r_r/2)*(cos(beta)-sin(beta))+pos_y;
+    //vert_SR0_ph[4] = (-r_o/2-r_r/2)*(cos(beta)+sin(beta))+pos_x;
+    //vert_SR0_ph[5] = (-r_o/2-r_r/2)*(-cos(beta)+sin(beta))+pos_y;
+    //vert_SR0_ph[6] = (-r_o/2-r_r/2)*(-cos(beta)+sin(beta))+pos_x;
+    //vert_SR0_ph[7] = (r_o/2+r_r/2)*(cos(beta)+sin(beta))+pos_y;
 
 
 
