@@ -56,7 +56,9 @@ int id_o3 = 3;
 
 
 //variabili scanner
-float alpha = 0;
+int num_iter = 500;
+float start_alpha = PI/num_iter;
+float alpha = start_alpha;
 float laser_length = 600*sqrt(2);
 float[] x_prev = {0, 0};   //coordinate dei punti i-1,i-2 RISPETTO A SR0
 float[] y_prev = {0, 0};
@@ -78,6 +80,7 @@ Tree tree;
 ArrayList<Node> nodes;
 float r_node = 10;
 
+boolean token = true;
 
 
 // colors
@@ -102,8 +105,6 @@ void setup() {
   nodes = new ArrayList<Node>();
   tree = new Tree(first_root);
   current_node = first_root;
-  
-
 }
 
 void draw() {
@@ -153,13 +154,24 @@ void draw() {
 
   //global_collision_roomba(pos_x_r, pos_y_r, r_r, x_obs, y_obs, r_obs);
   strokeWeight(3);
-  scan(pos_x_r, pos_y_r, laser_length, RED);
-  make_tree(current_node);
-  print_tree();
+  if (token) {
+    scan(pos_x_r, pos_y_r, laser_length, RED);
+    make_tree(current_node);
+    print_tree();
+    if (alpha >= 0 && alpha <start_alpha) {  //ciclo di scan completo
+      token = false;
+    }
+  } else {
+    current_node = nodes.get(13);
+    pos_x_r = current_node.x;
+    pos_y_r = current_node.y;
+    token = true;
+  }
+
   //movimento => cambio nodo
   println(nodes.size());
-  
-  
+
+
 
   fill(0);
 

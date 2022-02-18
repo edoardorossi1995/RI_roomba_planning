@@ -63,7 +63,7 @@ void scan(float x, float y, float len_max, color colore) {
 
 
   fill(0);
-  alpha = (alpha - 0.008) %(2*PI);
+  alpha = (alpha + PI/num_iter) %(2*PI);
 }
 
 void detect_vert(float xi, float yi) {

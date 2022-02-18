@@ -128,7 +128,7 @@ float[] intersectionObstacles(float x, float y, float len_x, float len_y) {
      verranno impostate pari ai float in posizione 1 e 2. poi, tale valore sarà confrontato con i ritorni dalle collisioni successive, per tenere
      in memoria solamente la collisione con il bordo più vicino al roomba */
 
-    sx = intersectionLine(o.vert_SR0[0] -x, o.vert_SR0[1] -y, o.vert_SR0[4] -x, o.vert_SR0[5] - y, 0, 0, len_x, len_y);
+    sx = intersectionLine(o.vert_SR0_ph[0] -x, o.vert_SR0_ph[1] -y, o.vert_SR0_ph[4] -x, o.vert_SR0_ph[5] - y, 0, 0, len_x, len_y);
     if (sx[0]==1) {
       if (min_distance(sx[1], sx[2], closest_collision[1], closest_collision[2])) {
         closest_collision[0] = 1;
@@ -136,7 +136,7 @@ float[] intersectionObstacles(float x, float y, float len_x, float len_y) {
         closest_collision[2] = sx[2];
       }
     }
-    dx = intersectionLine(o.vert_SR0[0] - x, o.vert_SR0[1] - y, o.vert_SR0[2] - x, o.vert_SR0[3] - y, 0, 0, len_x, len_y);
+    dx = intersectionLine(o.vert_SR0_ph[0] - x, o.vert_SR0_ph[1] - y, o.vert_SR0_ph[2] - x, o.vert_SR0_ph[3] - y, 0, 0, len_x, len_y);
     if (dx[0]==1) {
       if (min_distance(dx[1], dx[2], closest_collision[1], closest_collision[2])) {
         closest_collision[0] = 1;
@@ -144,7 +144,7 @@ float[] intersectionObstacles(float x, float y, float len_x, float len_y) {
         closest_collision[2] = dx[2];
       }
     }
-    up = intersectionLine(o.vert_SR0[6] -x, o.vert_SR0[7] -y, o.vert_SR0[4] -x, o.vert_SR0[5] - y, 0, 0, len_x, len_y);
+    up = intersectionLine(o.vert_SR0_ph[6] -x, o.vert_SR0_ph[7] -y, o.vert_SR0_ph[4] -x, o.vert_SR0_ph[5] - y, 0, 0, len_x, len_y);
     if (up[0]==1) {
       if (min_distance(up[1], up[2], closest_collision[1], closest_collision[2])) {
         closest_collision[0] = 1;
@@ -152,7 +152,7 @@ float[] intersectionObstacles(float x, float y, float len_x, float len_y) {
         closest_collision[2] = up[2];
       }
     }
-    down = intersectionLine(o.vert_SR0[6] -x, o.vert_SR0[7] -y, o.vert_SR0[2] -x, o.vert_SR0[3] - y, 0, 0, len_x, len_y);
+    down = intersectionLine(o.vert_SR0_ph[6] -x, o.vert_SR0_ph[7] -y, o.vert_SR0_ph[2] -x, o.vert_SR0_ph[3] - y, 0, 0, len_x, len_y);
     if (down[0]==1) {
       if (min_distance(down[1], down[2], closest_collision[1], closest_collision[2])) {
         closest_collision[0] = 1;

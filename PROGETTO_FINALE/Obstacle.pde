@@ -11,6 +11,10 @@ class Obstacle {
   public float[] vert_array_SR_ob = new float[8];
   public float[] vert_SR0 = new float[8];
 
+  public float[] vert_array_SR_ob_ph = new float[8];
+  public float[] vert_SR0_ph = new float[8];
+  
+
 
 
 
@@ -25,6 +29,8 @@ class Obstacle {
 
 
     box(r_o, r_o, h_o);
+    fill(DARK_GREY, 0);
+    //box(r_o+r_r, r_o+r_r, h_o);  //secondo ostacolo, trasparente
 
 
     //coordinate rispetto a SR ostacolo
@@ -45,6 +51,26 @@ class Obstacle {
     vert_SR0[5] = (-r_o/2)*(-cos(beta)+sin(beta))+pos_y;
     vert_SR0[6] = (-r_o/2)*(-cos(beta)+sin(beta))+pos_x;
     vert_SR0[7] = (r_o/2)*(cos(beta)+sin(beta))+pos_y;
+
+
+    vert_array_SR_ob_ph[0] = -r_o/2-r_r/2;
+    vert_array_SR_ob_ph[1] = -r_o/2-r_r/2;
+    vert_array_SR_ob_ph[2] = r_o/2+r_r/2;
+    vert_array_SR_ob_ph[3] = -r_o/2-r_r/2;
+    vert_array_SR_ob_ph[4] = -r_o/2-r_r/2;
+    vert_array_SR_ob_ph[5] = r_o/2+r_r/2;
+    vert_array_SR_ob_ph[6] = r_o/2+r_r/2;
+    vert_array_SR_ob_ph[7] = r_o/2+r_r/2;
+    
+    
+    vert_SR0_ph[0] = (-r_o/2-r_r/2)*(cos(beta)-sin(beta))+pos_x;
+    vert_SR0_ph[1] = (-r_o/2-r_r/2)*(cos(beta)+sin(beta))+pos_y;
+    vert_SR0_ph[2] = (r_o/2+r_r/2)*(cos(beta)+sin(beta))+pos_x;
+    vert_SR0_ph[3] = (-r_o/2-r_r/2)*(cos(beta)-sin(beta))+pos_y;
+    vert_SR0_ph[4] = (-r_o/2-r_r/2)*(cos(beta)+sin(beta))+pos_x;
+    vert_SR0_ph[5] = (-r_o/2-r_r/2)*(-cos(beta)+sin(beta))+pos_y;
+    vert_SR0_ph[6] = (-r_o/2-r_r/2)*(-cos(beta)+sin(beta))+pos_x;
+    vert_SR0_ph[7] = (r_o/2+r_r/2)*(cos(beta)+sin(beta))+pos_y;
 
 
 
@@ -84,6 +110,6 @@ void obstacle_factory(float pos_x, float pos_y, float r_o, float h_o, int id, fl
   }
 
   /*if (obstacle_ArrayList.size()<20000) {
-    println(obstacle_ArrayList.size());
-  }*/
+   println(obstacle_ArrayList.size());
+   }*/
 }
