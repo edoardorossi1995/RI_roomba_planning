@@ -42,4 +42,7 @@ class Tree  {
     nodes.add(child);
     linkNodes(parent, child);
   }
+  
+  
+  
 }

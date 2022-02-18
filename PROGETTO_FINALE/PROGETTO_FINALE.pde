@@ -101,8 +101,9 @@ void setup() {
   Node first_root = new Node("source", x_home, y_home);
   nodes = new ArrayList<Node>();
   tree = new Tree(first_root);
-  nodes = new ArrayList<Node>();
   current_node = first_root;
+  
+
 }
 
 void draw() {

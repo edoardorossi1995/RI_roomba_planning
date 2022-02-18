@@ -7,7 +7,7 @@ void make_tree(Node current) {
   Node n = new Node(s_lab, x_vert, y_vert);
 
   for (Node ni : nodes) {
-    
+
     if (abs(ni.x -x_vert)< toll && abs(ni.y-y_vert)<toll) {  //se già esiste, o se è sufficientemente vicino ad un vertice già esistente
       return;
     }
@@ -26,12 +26,13 @@ void print_tree() {
 
     circle(ni.x, ni.y, r_node);
     fill(0);
-    
+
     translate(0, 0, 10);
     text(ni.label, ni.x, ni.y);
     translate(0, 0, -10);
 
     for (Node near : ni.links) {
+      strokeWeight(1);
       line(ni.x, ni.y, near.x, near.y);
     }
   }
