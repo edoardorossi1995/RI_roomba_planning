@@ -29,8 +29,8 @@ class Obstacle {
 
 
     box(r_o, r_o, h_o);
-    fill(DARK_GREY, 0);
-    //box(r_o+r_r, r_o+r_r, h_o);  //secondo ostacolo, trasparente
+    fill(0,0,0, 20);
+    box(r_o+r_r, r_o+r_r, h_o-5);  //secondo ostacolo, trasparente
 
 
     //coordinate rispetto a SR ostacolo
@@ -98,7 +98,7 @@ class Obstacle {
   }
 }
 
-
+//si può modificare la verifica dell'istanza dell'oggetto con contains e le coordinate del centro dell'ostacolo
 void obstacle_factory(float pos_x, float pos_y, float r_o, float h_o, int id, float beta) {
 
   Obstacle ob = new Obstacle(pos_x, pos_y, r_o, h_o, id, beta);

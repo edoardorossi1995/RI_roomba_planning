@@ -19,6 +19,7 @@ float floor_z = 10;
 
 //segmenti - pareti stanza
 
+int i = 0;
 
 // variabili SR
 float lenAxis = 50;
@@ -56,7 +57,7 @@ int id_o3 = 3;
 
 
 //variabili scanner
-int num_iter = 1500;
+int num_iter = 2500;
 float start_alpha = (2*PI)/num_iter;
 float alpha = start_alpha;
 float laser_length = 600*sqrt(2);
@@ -162,8 +163,7 @@ void draw() {
     scan(pos_x_r, pos_y_r, laser_length, RED);
     if (vertex_found){
       //aggiungo nodo solo quando trovo un nuovo vertice
-      make_tree(current_node);
-      println(nodes.size());
+      make_tree(current_node); //funzione che aggiunge il vertice eventualmente detectato ai links del current node
       vertex_found = false;
     }
     print_tree();
@@ -171,7 +171,7 @@ void draw() {
       token = false;
     }
   } else {
-    exploring_node++;
+    exploring_node++;                            //modificare: il prossimo nodo è tra quelli linkati all'attuale current
     current_node = nodes.get(exploring_node);
     pos_x_r = current_node.x;
     pos_y_r = current_node.y;
@@ -186,4 +186,5 @@ void draw() {
 
   popMatrix();
   noStroke();
+  i++;
 }

@@ -40,14 +40,14 @@ float[] intersectionLine(float x1, float y1, float x2, float y2, float x3, float
 
   //parametrizzazione delle rette rispetto ai parametri t e u
 
-  float[] ret = new float[3];
+  float[] ret = new float[3];      //ret[0] = 1 se c'è intersezione, ret[1] e ret[2] sono le coordinate del pt di intersezione
 
   float t = ((x4-x3)*(y1-y3) - (y4-y3)*(x1-x3)) / ((y4-y3)*(x2-x1) - (x4-x3)*(y2-y1));
   float u = ((x2-x1)*(y1-y3) - (y2-y1)*(x1-x3)) / ((y4-y3)*(x2-x1) - (x4-x3)*(y2-y1));
 
   //se entrambi compresi tra 0 e 1, c'è una collisione
 
-  if (t >= 0 && t <= 1 && u >= 0 && u <= 1) {
+  if (t >=0 && t <= 1 && u >= 0 && u <= 1) {
 
     ret[0] = 1;
     ret[1] = x1 + (t * (x2-x1));
@@ -173,4 +173,20 @@ boolean min_distance(float x1, float y1, float x2, float y2) {
   } else {
     return false;
   }
+}
+
+
+
+
+
+//funzione che, prese in igresso le coordinate inerziali di un punto, resistuisce l'id 
+//dell'oggetto all'interno di cui si trova, oppure -1 se non appartiene a nessun oggetto
+int is_in_obstacle(float x_0, float y_0){
+  float x_1, y_1;
+ for (Obstacle ob : obstacle_ArrayList){
+   
+ }
+ 
+ return -1;
+
 }

@@ -29,6 +29,7 @@ void scan(float x, float y, float len_max, color colore) {
   if (intersection_obstacles[0] == 1) {
     xi = intersection_obstacles[1];
     yi = intersection_obstacles[2];
+    
     //println(xi, yi);
   } else {
     //println("wall");
@@ -46,7 +47,7 @@ void scan(float x, float y, float len_max, color colore) {
   stroke(180, 0, 0);
 
   line(0, 0, xi, yi);
-  stroke(0,0,255);
+  stroke(0, 0, 255);
   //line(0, 0, len_x, len_y);
 
   xi_0 = xi + x;        //coordinate di xi rispetto a SR0
@@ -60,8 +61,9 @@ void scan(float x, float y, float len_max, color colore) {
   popMatrix(); //mi riporto alle coordinate inerziali
 
   fill(0, 0, 255);
-  circle(x_vert, y_vert, 30);  // vertice rilevato
-
+  if (alpha >= 2*(2*PI)/num_iter) {
+    circle(x_vert, y_vert, 30);  // vertice rilevato
+  }
 
   fill(0);
   alpha = (alpha + (2*PI)/num_iter) %(2*PI);
@@ -87,7 +89,7 @@ void detect_vert(float xi, float yi) {
   }
 
   /* il valore 500 come upper bound è per trattare le coppie di punti a pendenza infinita */
-  if (abs(m_i1_i - m_i2_i1)> threshold && (alpha >= 2*(2*PI)/num_iter)) { 
+  if (abs(m_i1_i - m_i2_i1)> threshold && (alpha >= 3*(2*PI)/num_iter)) { 
     vertex_found = true;
     x_vert = x_prev[1];
     y_vert = y_prev[1];
