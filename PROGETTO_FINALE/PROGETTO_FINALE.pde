@@ -71,7 +71,7 @@ boolean vertex_found = false;
 PShape roomba;
 float pos_x_r = -180;
 float pos_y_r = 100;
-float r_r = 27;  //stima del raggio del roomba, con tolleranza, per evitare le collisioni
+float r_r = 27;  //stima del diametro del roomba, con tolleranza, per evitare le collisioni
 
 //parametri tree
 float x_home = pos_x_r;

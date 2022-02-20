@@ -1,8 +1,10 @@
-void scan(float x, float y, float len_max, color colore) {
+void scan(float x, float y, float len_max, color colore) {    //x,y coordinate del roomba rispetto a SR0 
 
   float xi, yi, xi_0, yi_0;
   float len_x = floor_x/2;
   float len_y = floor_y/2;
+  boolean same_obstacle;
+  int detected_obs;
 
 
 
@@ -29,7 +31,7 @@ void scan(float x, float y, float len_max, color colore) {
   if (intersection_obstacles[0] == 1) {
     xi = intersection_obstacles[1];
     yi = intersection_obstacles[2];
-    
+
     //println(xi, yi);
   } else {
     //println("wall");
@@ -38,21 +40,31 @@ void scan(float x, float y, float len_max, color colore) {
     yi = intersection_wall[2];
   }
 
-
-  //stroke(0, 255, 0);
-  //line(0, 0, xi, yi);
-
-  stroke(255);
-  circle(xi, yi, 5);
-  stroke(180, 0, 0);
-
-  line(0, 0, xi, yi);
-  stroke(0, 0, 255);
-  //line(0, 0, len_x, len_y);
-
   xi_0 = xi + x;        //coordinate di xi rispetto a SR0
   yi_0 = yi + y;
-  detect_vert(xi_0, yi_0);
+
+  detected_obs = is_in_obstacle(xi_0, yi_0);        //id dell'ostacolo su cui 'poggia' il laser
+
+  if (is_in_obstacle(x, y) == detected_obs && (detected_obs != -1)) {        //se il laser e l'oggetto si trovano lungo 
+    //i lati dello stesso oggetto same_obstacle è true
+    same_obstacle = true;
+  } else {
+    same_obstacle = false;
+  }
+
+
+
+
+
+  if (!same_obstacle) {
+    stroke(255);
+    circle(xi, yi, 5);
+    stroke(180, 0, 0);
+    line(0, 0, xi, yi);
+    stroke(0, 0, 255);
+    detect_vert(xi_0, yi_0);
+  }
+  //println(is_in_obstacle(xi_0,yi_0));
 
 
 
