@@ -26,37 +26,50 @@ float lenAxis = 50;
 float arrows = 0.1*lenAxis;
 
 // variabili disegno ostacoli
-int MAX_OB = 3;
+int MAX_OB = 4;
 
 int sides = 6;
+
+float xot = -80;
+float yot = 200;
+float r_target = 10;
+float h_target = 5;
+boolean ist_t = true;
+
 float xo1 = 100;
 float yo1 = 100;
 float ro1 = 150;
 float ho1 = 10;
+boolean is_target1 = false;
 
 float xo2 = -100;
 float yo2 = -100;
 float ro2 = 90;
 float ho2 = 10;
+boolean is_target2 = false;
 
 float xo3 = 100;
 float yo3 = -100;
 float ro3 = 100;
 float ho3 = 10;
+boolean is_target3 = false;
 
-float[] x_obs = {xo1, xo2, xo3};
-float[] y_obs = {yo1, yo2, yo3};
-float[] r_obs = {ro1, ro2, ro3};
-float[] h_obs = {ho1, ho2, ho3};
+float[] x_obs = {xot, xo1, xo2, xo3};
+float[] y_obs = {yot, yo1, yo2, yo3};
+float[] r_obs = {r_target, ro1, ro2, ro3};
+float[] h_obs = {h_target, ho1, ho2, ho3};
 
 ArrayList<Obstacle> obstacle_ArrayList= new ArrayList<Obstacle>();
 
+int id_target = 0;
 int id_o1 = 1;
 int id_o2 = 2;
 int id_o3 = 3;
 
 
+
 //variabili scanner
+boolean s = false;   //variabile scanner
 int num_iter = 2500;
 float start_alpha = (2*PI)/num_iter;
 float alpha = start_alpha;
@@ -138,9 +151,13 @@ void draw() {
   translate(0, 0, 5);
   SR3D();
 
-  obstacle_factory(xo1, yo1, ro1, ho1, id_o1, PI/3);
-  obstacle_factory(xo2, yo2, ro2, ho2, id_o2, PI/4);
-  obstacle_factory(xo3, yo3, ro3, ho3, id_o3, -PI/6);
+  obstacle_factory(xo1, yo1, ro1, ho1, id_o1, PI/3, is_target1);
+  obstacle_factory(xo2, yo2, ro2, ho2, id_o2, PI/4, is_target2);
+  obstacle_factory(xo3, yo3, ro3, ho3, id_o3, -PI/6, is_target3 );
+
+  fill(GREEN);
+  obstacle_factory(xot, yot, r_target, h_target, id_target, PI/12, ist_t);
+
 
 
   fill(10, 100, 255);
@@ -159,23 +176,42 @@ void draw() {
 
   //global_collision_roomba(pos_x_r, pos_y_r, r_r, x_obs, y_obs, r_obs);
   strokeWeight(3);
+
+
+
   if (token) {
-    scan(pos_x_r, pos_y_r, laser_length, RED);
-    if (vertex_found){
+
+    //fase di scan
+
+    s = scan(pos_x_r, pos_y_r, laser_length, RED);
+    if (vertex_found) {
       //aggiungo nodo solo quando trovo un nuovo vertice
       make_tree(current_node); //funzione che aggiunge il vertice eventualmente detectato ai links del current node
       vertex_found = false;
     }
     print_tree();
-    if (alpha >= 0 && alpha <start_alpha) {  //ciclo di scan completo
+    
+    if (s) {
+      token = false;
+    }
+
+    if (alpha >= 0 && alpha <start_alpha ) {  //ciclo di scan completo => cambia token per muoversi
       token = false;
     }
   } else {
-    exploring_node++;                            //modificare: il prossimo nodo è tra quelli linkati all'attuale current
-    current_node = nodes.get(exploring_node);
-    pos_x_r = current_node.x;
-    pos_y_r = current_node.y;
-    token = true;
+    //fase di movimento
+
+    if (!s) {
+      exploring_node++;                            //modificare: il prossimo nodo è tra quelli linkati all'attuale current
+      current_node = nodes.get(exploring_node);
+      pos_x_r = current_node.x;
+      pos_y_r = current_node.y;
+      token = true;
+    } else {  // qui ci dovrà essere il reset del target e del grafo
+      pos_x_r = xot;
+      pos_y_r = yot;
+      token = true;
+    }
   }
 
   //movimento => cambio nodo

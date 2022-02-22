@@ -1,4 +1,4 @@
-void scan(float x, float y, float len_max, color colore) {    //x,y coordinate del roomba rispetto a SR0 
+boolean scan(float x, float y, float len_max, color colore) {    //x,y coordinate del roomba rispetto a SR0 
 
   float xi, yi, xi_0, yi_0;
   float len_x = floor_x/2;
@@ -43,7 +43,8 @@ void scan(float x, float y, float len_max, color colore) {    //x,y coordinate d
   xi_0 = xi + x;        //coordinate di xi rispetto a SR0
   yi_0 = yi + y;
 
-  detected_obs = is_in_obstacle(xi_0, yi_0);        //id dell'ostacolo su cui 'poggia' il laser
+  detected_obs = is_in_obstacle(xi_0, yi_0);        // ID dell'ostacolo su cui 'poggia' il laser
+  
 
   if (is_in_obstacle(x, y) == detected_obs && (detected_obs != -1)) {        //se il laser e l'oggetto si trovano lungo 
     //i lati dello stesso oggetto same_obstacle è true
@@ -51,6 +52,8 @@ void scan(float x, float y, float len_max, color colore) {    //x,y coordinate d
   } else {
     same_obstacle = false;
   }
+  
+  
 
 
 
@@ -64,6 +67,17 @@ void scan(float x, float y, float len_max, color colore) {    //x,y coordinate d
     stroke(0, 0, 255);
     detect_vert(xi_0, yi_0);
   }
+  
+  if (detected_obs == id_target) {
+    popMatrix();
+    return true;
+    
+  
+  }
+  
+  
+  
+  
   //println(is_in_obstacle(xi_0,yi_0));
 
 
@@ -79,6 +93,8 @@ void scan(float x, float y, float len_max, color colore) {    //x,y coordinate d
 
   fill(0);
   alpha = (alpha + (2*PI)/num_iter) %(2*PI);
+  
+  return false;
 }
 
 void detect_vert(float xi, float yi) {
