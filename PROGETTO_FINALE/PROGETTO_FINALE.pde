@@ -30,8 +30,8 @@ int MAX_OB = 4;
 
 int sides = 6;
 
-float xot = -80;
-float yot = 200;
+float xot = -200;
+float yot = -260;
 float r_target = 10;
 float h_target = 5;
 boolean ist_t = true;
@@ -70,7 +70,7 @@ int id_o3 = 3;
 
 //variabili scanner
 boolean s = false;   //variabile scanner
-int num_iter = 2500;
+int num_iter = 3000;
 float start_alpha = (2*PI)/num_iter;
 float alpha = start_alpha;
 float laser_length = 600*sqrt(2);
@@ -96,6 +96,7 @@ ArrayList<Node> nodes;
 float r_node = 10;
 int exploring_node = 0;
 boolean token = true;
+ArrayList<Node> visited_nodes;
 
 
 // colors
@@ -119,6 +120,7 @@ void setup() {
   Node first_root = new Node("source", x_home, y_home);
   nodes = new ArrayList<Node>();
   tree = new Tree(first_root);
+  visited_nodes = new ArrayList<Node>();
   current_node = first_root;
   //for (Node n : nodes){
   //  println(n.label);
