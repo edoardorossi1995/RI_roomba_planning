@@ -4,13 +4,13 @@ void make_tree(Node current) {
   String s_lab = String.valueOf(s);
   float toll = 8;
 
-  Node n = new Node(s_lab, x_vert, y_vert);  
+  Node n = new Node(s_lab, x_vert, y_vert);
   /*modificare: node n non deve prendere esattamente x_vert e y_vert, ma questi con un offset per far
    stare il roomba fuori l'ostacolo*/
 
   for (Node ni : nodes) {
 
-    if (abs(ni.x -x_vert)< toll && abs(ni.y-y_vert)<toll) {  
+    if (abs(ni.x -x_vert)< toll && abs(ni.y-y_vert)<toll) {
       //se già esiste, o se è sufficientemente vicino ad un vertice già esistente
       tree.linkNodes(ni, current);   //se il nodo è già "presente", crea solo arco
       return;
@@ -40,4 +40,53 @@ void print_tree() {
       line(ni.x, ni.y, near.x, near.y);
     }
   }
+}
+
+
+/*la funzione find_path cerca primo antenato comune tra due nodi, e in particolare ne riporta un ArrayList contenente tutti i nodi
+ che costituiscono il cammino per andare dal nodo source al nodo destination, passando al più per la root dell'albero */
+
+
+ArrayList<Node> find_path(Node source, Node dest) {
+
+  ArrayList<Node> path = new ArrayList<Node>();
+
+  boolean exit = false;
+  Node source_var = source;
+
+  ArrayList<Node> s_path = new ArrayList<Node>();
+  ArrayList<Node> d_path = new ArrayList<Node>();
+
+
+  if (source.father != dest && dest.father != source) {
+
+    while (source_var.father != tree.root && exit == false) {
+
+      Node dest_var = dest;
+      d_path.clear();
+      d_path.add(dest_var);
+
+      while (dest_var.father != tree.root && exit == false ) {
+
+        if (source_var.father == dest_var.father) {
+          exit = true;
+        } else {
+          d_path.add(0, dest_var.father);
+          dest_var = dest_var.father;
+        }
+      }
+
+      s_path.add(source_var);
+      source_var = source_var.father;
+    }
+
+    s_path.addAll(d_path);
+    path = s_path;
+  } else {
+
+    path.add(source);
+    path.add(dest);
+  }
+
+  return path;
 }

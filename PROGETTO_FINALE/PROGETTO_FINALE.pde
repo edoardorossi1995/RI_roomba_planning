@@ -90,13 +90,14 @@ float r_r = 27;  //stima del diametro del roomba, con tolleranza, per evitare le
 float x_home = pos_x_r;
 float y_home = pos_y_r;
 
-Node current_node;
+Node current_node, next_node;
 Tree tree;
 ArrayList<Node> nodes;
 float r_node = 10;
 int exploring_node = 0;
 boolean token = true;
 ArrayList<Node> visited_nodes;
+int j = 0;
 
 
 // colors
@@ -192,7 +193,7 @@ void draw() {
       vertex_found = false;
     }
     print_tree();
-    
+
     if (s) {
       token = false;
     }
@@ -204,12 +205,24 @@ void draw() {
     //fase di movimento
 
     if (!s) {
-      exploring_node++;                            //modificare: il prossimo nodo è tra quelli linkati all'attuale current
-      current_node = nodes.get(exploring_node);
-      pos_x_r = current_node.x;
-      pos_y_r = current_node.y;
+      //scan terminato, target non trovato
+
+      exploring_node++;
+      next_node = nodes.get(exploring_node);
+      ArrayList<Node> path = find_path(current_node, next_node);
+      fill(255, 0, 0);
+      int j = 0;
+      if (!arrived) {
+        circle(path.get(j).x, path.get(j).y, 20);
+        j++;
+      }
+      delay(3000);
+      current_node = next_node;
+
       token = true;
     } else {  // qui ci dovrà essere il reset del target e del grafo
+
+
       pos_x_r = xot;
       pos_y_r = yot;
       token = true;

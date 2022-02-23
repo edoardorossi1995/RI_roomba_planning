@@ -6,6 +6,7 @@ class Node {
   public float x;
   public float y;
   public float r;
+  public Node father;
 
   /* Le coordinate _x e _y sono prese rispetto a SR0 */
   Node(String _label, float _x, float _y) {

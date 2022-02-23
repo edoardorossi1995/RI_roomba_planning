@@ -49,6 +49,7 @@ class Tree  {
 
   void addChild(Node parent, Node child) {
     nodes.add(child);
+    child.father = parent;
     linkNodes(parent, child);
   }
 }
