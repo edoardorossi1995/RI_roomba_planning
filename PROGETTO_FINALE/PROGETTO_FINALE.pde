@@ -70,7 +70,7 @@ int id_o3 = 3;
 
 //variabili scanner
 boolean s = false;   //variabile scanner
-int num_iter = 1200;
+int num_iter = 800;
 float start_alpha = (2*PI)/num_iter;
 float alpha = start_alpha;
 float laser_length = 600*sqrt(2);

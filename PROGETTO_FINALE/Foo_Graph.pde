@@ -65,13 +65,14 @@ ArrayList<Node> find_path(Node source, Node dest) {
       d_path.removeAll(d_path);
       d_path.add(dest_var);
 
-      while (dest_var.father != tree.root && exit == false ) {
+      while (dest_var != tree.root && exit == false ) {
 
         if (source_var.father == dest_var.father) {
+          d_path.add(0, dest_var.father);
+
           exit = true;
         } else {
           d_path.add(0, dest_var.father);
-          println(dest_var.father.label);
           dest_var = dest_var.father;
         }
       }
