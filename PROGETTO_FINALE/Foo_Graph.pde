@@ -90,8 +90,21 @@ ArrayList<Node> find_path(Node source, Node dest) {
     path.add(dest);
   }
 
-  for (Node n : path) {
-    println(n.label);
-  }
+  //for (Node n : path) {
+  //  println(n.label);
+  //}
   return path;
+}
+
+
+float[] move(float x1, float y1, float x2, float y2){
+  
+  float[] new_pos = {x1,y1};
+  
+  /*  IMPLEMENTAZIONE LEGGE ORARIA */
+  
+  
+  return new_pos;
+  
+  
 }

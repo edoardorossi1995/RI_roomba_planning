@@ -212,7 +212,7 @@ void draw() {
       j = 0;
       exploring_node++;
       next_node = nodes.get(exploring_node);
-      
+
       path = find_path(current_node, next_node);
     }
   } else {
@@ -225,10 +225,37 @@ void draw() {
 
       if (!arrived) {
 
-        delay(1000);
-        pos_x_r = path.get(j).x;
-        pos_y_r = path.get(j).y;
-        j++;
+        for (Node n : path) {
+          println(n.label);
+        }
+        println("//////");
+
+        print_tree();
+
+        float x1, x2, y1, y2;
+
+        x1 = path.get(j).x;
+        y1 = path.get(j).y;
+        x2 = path.get(j+1).x;
+        y2 = path.get(j+1).y;
+
+        float[] new_pos = move(x1, y1, x2, y2);
+
+        pos_x_r = new_pos[0];
+        pos_y_r = new_pos[1];
+
+
+
+
+
+        //delay(2000);
+        //pos_x_r = path.get(j).x;
+        //pos_y_r = path.get(j).y;
+
+        if (x1 == x2 && y1 == y2) {
+          j++;
+        }
+
 
         if (j == path.size() - 1) {
           /* se sono arrivato all'ultimo nodo dell'array path */
@@ -241,26 +268,6 @@ void draw() {
           token = true;
         }
       }
-
-      //  pos_x_r = path.get(j).x;
-      //  pos_y_r = path.get(j).y;
-      //  circle(pos_x_r, pos_y_r, 100);
-      //  println("path.size =", path.size());
-      //  if (j == path.size()-1) {
-      //    println("j = path.size -1");
-      //    //se camminando sono arrivato all'ultimo
-      //    arrived = true;
-      //    j = 0;
-      //  }
-      //  println("pre incremento j, j = ", j);
-      //  j++;
-      //}
-      //delay(3000);
-      //current_node = next_node;
-      //pos_x_r = current_node.x;
-      //pos_y_r = current_node.y;
-
-
     } else {  // qui ci dovrà essere il reset del target e del grafo
 
 
