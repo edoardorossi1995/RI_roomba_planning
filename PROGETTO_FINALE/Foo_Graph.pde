@@ -12,7 +12,7 @@ void make_tree(Node current) {
 
     if (abs(ni.x -x_vert)< toll && abs(ni.y-y_vert)<toll) {
       //se già esiste, o se è sufficientemente vicino ad un vertice già esistente
-      tree.linkNodes(ni, current);   //se il nodo è già "presente", crea solo arco
+      //tree.linkNodes(ni, current);   //se il nodo è già "presente", crea solo arco
       return;
     }
   }
@@ -59,11 +59,10 @@ ArrayList<Node> find_path(Node source, Node dest) {
 
 
   if (source.father != dest && dest.father != source) {
-
-    while (source_var.father != tree.root && exit == false) {
+    while (source_var != tree.root && exit == false) {
 
       Node dest_var = dest;
-      d_path.clear();
+      d_path.removeAll(d_path);
       d_path.add(dest_var);
 
       while (dest_var.father != tree.root && exit == false ) {
@@ -72,11 +71,13 @@ ArrayList<Node> find_path(Node source, Node dest) {
           exit = true;
         } else {
           d_path.add(0, dest_var.father);
+          println(dest_var.father.label);
           dest_var = dest_var.father;
         }
       }
 
       s_path.add(source_var);
+
       source_var = source_var.father;
     }
 
@@ -88,5 +89,8 @@ ArrayList<Node> find_path(Node source, Node dest) {
     path.add(dest);
   }
 
+  for (Node n : path) {
+    println(n.label);
+  }
   return path;
 }

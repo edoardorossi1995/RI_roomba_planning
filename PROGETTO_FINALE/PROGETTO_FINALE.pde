@@ -30,7 +30,7 @@ int MAX_OB = 4;
 
 int sides = 6;
 
-float xot = -200;
+float xot = -80;
 float yot = -260;
 float r_target = 10;
 float h_target = 5;
@@ -70,7 +70,7 @@ int id_o3 = 3;
 
 //variabili scanner
 boolean s = false;   //variabile scanner
-int num_iter = 3000;
+int num_iter = 1200;
 float start_alpha = (2*PI)/num_iter;
 float alpha = start_alpha;
 float laser_length = 600*sqrt(2);
@@ -86,7 +86,7 @@ float pos_x_r = -180;
 float pos_y_r = 100;
 float r_r = 27;  //stima del diametro del roomba, con tolleranza, per evitare le collisioni
 
-//parametri tree
+//parametri tree & movimento
 float x_home = pos_x_r;
 float y_home = pos_y_r;
 
@@ -98,6 +98,8 @@ int exploring_node = 0;
 boolean token = true;
 ArrayList<Node> visited_nodes;
 int j = 0;
+boolean arrived = false;
+ArrayList<Node> path;
 
 
 // colors
@@ -195,11 +197,23 @@ void draw() {
     print_tree();
 
     if (s) {
+
+      // cambia token quando lo scanner trova il target, e lo passa all'else responsabile della fase di movimento
+
       token = false;
     }
 
     if (alpha >= 0 && alpha <start_alpha ) {  //ciclo di scan completo => cambia token per muoversi
+
       token = false;
+      arrived = false;
+
+      //inizializza il path una volta che lo scan è finito per preparare il percorso
+      j = 0;
+      exploring_node++;
+      next_node = nodes.get(exploring_node);
+      
+      path = find_path(current_node, next_node);
     }
   } else {
     //fase di movimento
@@ -207,19 +221,46 @@ void draw() {
     if (!s) {
       //scan terminato, target non trovato
 
-      exploring_node++;
-      next_node = nodes.get(exploring_node);
-      ArrayList<Node> path = find_path(current_node, next_node);
-      fill(255, 0, 0);
-      int j = 0;
-      if (!arrived) {
-        circle(path.get(j).x, path.get(j).y, 20);
-        j++;
-      }
-      delay(3000);
-      current_node = next_node;
 
-      token = true;
+
+      if (!arrived) {
+
+        delay(1000);
+        pos_x_r = path.get(j).x;
+        pos_y_r = path.get(j).y;
+        j++;
+
+        if (j == path.size() - 1) {
+          /* se sono arrivato all'ultimo nodo dell'array path */
+          //arrived = true;
+
+          current_node = next_node;
+          pos_x_r = current_node.x;
+          pos_y_r = current_node.y;
+
+          token = true;
+        }
+      }
+
+      //  pos_x_r = path.get(j).x;
+      //  pos_y_r = path.get(j).y;
+      //  circle(pos_x_r, pos_y_r, 100);
+      //  println("path.size =", path.size());
+      //  if (j == path.size()-1) {
+      //    println("j = path.size -1");
+      //    //se camminando sono arrivato all'ultimo
+      //    arrived = true;
+      //    j = 0;
+      //  }
+      //  println("pre incremento j, j = ", j);
+      //  j++;
+      //}
+      //delay(3000);
+      //current_node = next_node;
+      //pos_x_r = current_node.x;
+      //pos_y_r = current_node.y;
+
+
     } else {  // qui ci dovrà essere il reset del target e del grafo
 
 
