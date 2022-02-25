@@ -56,13 +56,11 @@ boolean scan(float x, float y, float len_max, color colore) {    //x,y coordinat
   
 
 
-
-
-
   if (!same_obstacle) {
-    stroke(255);
+    stroke(180,0,0);
     circle(xi, yi, 5);
     stroke(180, 0, 0);
+    strokeWeight(2);
     line(0, 0, xi, yi);
     stroke(0, 0, 255);
     detect_vert(xi_0, yi_0);
@@ -70,26 +68,14 @@ boolean scan(float x, float y, float len_max, color colore) {    //x,y coordinat
   
   if (detected_obs == id_target) {
     popMatrix();
+    vertex_found = true;
     return true;
-    
-  
+
   }
   
-  
-  
-  
-  //println(is_in_obstacle(xi_0,yi_0));
-
-
-
   stroke(255);
   noStroke();
   popMatrix(); //mi riporto alle coordinate inerziali
-
-  //fill(0, 0, 255);
-  //if (alpha >= 2*(2*PI)/num_iter) {
-  //  circle(x_vert, y_vert, 30);  // vertice rilevato
-  //}
 
   fill(0);
   alpha = (alpha + (2*PI)/num_iter) %(2*PI);

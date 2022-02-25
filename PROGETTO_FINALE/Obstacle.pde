@@ -41,11 +41,12 @@ class Obstacle {
 
 
     if (!this.is_t) {
-
-      fill(WOOD_2);
-
+      
+      /* disegno ostacolo */
+      fill(ORANGE);
       box(r_o, r_o, h_o);
 
+      /* disegno ostacolo allargato */
       fill(0, 0, 0, 20);
       noStroke();
       box(r_o+r_r, r_o+r_r, h_o-5);  //secondo ostacolo, trasparente
@@ -91,7 +92,9 @@ class Obstacle {
       vert_SR0_ph[7] = (r_o/2+r_r/2)*(cos(beta)+sin(beta))+pos_y;
     } else {
 
-      fill(GREEN);
+      /*disegno target*/
+
+      fill(TARGET);
       box(r_o, r_o, h_o);
 
       //coordinate rispetto a SR ostacolo

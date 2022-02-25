@@ -1,11 +1,13 @@
-/*  Roomba che deve raggiungere un target
- Ostacoli nella mappa, anche definibili a scelta/dinamicamente
- Robot al centro (3dof / cilindrico) che sposta il target
- 
- Per grafo di visibilità: individuare i vertici come oggetti con coordinate note al sistema
+/*  PROGETTO ROBOTICA INDUSTRIALE: pianificazione del moto di un robot in una mappa non nota, tramite realizzazione di un grafo di visibilità.
+
+Il flusso di esecuzione è esecuzione è il seguente:
+- fase di scan e individuazione
  */
 
-import grafica.*;
+
+
+
+
 
 // parametri visualizzazione
 float angoloX = 0;
@@ -31,9 +33,9 @@ int MAX_OB = 4;
 
 int sides = 6;
 
-float xot = 120;
-float yot = 0;
-float r_target = 4;
+float xot = -60;
+float yot = 60;
+float r_target = 10;
 float h_target = 5;
 boolean ist_t = true;
 
@@ -120,12 +122,15 @@ color ROOMBA_GREEN = #198B00;
 color WOOD_1 = #C19A6B;
 color WOOD_2 = #663300;
 color DARK_GREY = color(40);
-
+color WHITE_TABLE = color(220);
+color LINK = #4BA240;
+color ORANGE = #EA8D2F;
+color TARGET = #9540A2;
 
 void setup() {
 
   fullScreen(P3D);
-  background(NERO_SFONDO);
+  background(LIGHT_BLUE);
   //roomba = loadShape("iRobot_iCreate.obj");
 
   Node first_root = new Node("source", x_home, y_home);
@@ -133,14 +138,12 @@ void setup() {
   tree = new Tree(first_root);
   visited_nodes = new ArrayList<Node>();
   current_node = first_root;
-  //for (Node n : nodes){
-  //  println(n.label);
-  //}
+  
 }
 
 void draw() {
 
-  background(NERO_SFONDO);
+  background(LIGHT_BLUE);
 
 
   pushMatrix();
@@ -154,10 +157,10 @@ void draw() {
   rotateZ(PI/10);
 
   directionalLight(126, 126, 126, 0, 0, -1);
-  ambientLight(102, 102, 102);
+  ambientLight(122, 122, 122);
 
   //creazione tavolo da lavoro
-  fill(WOOD_1);
+  fill(255);
   box(floor_x, floor_y, floor_z);
 
   // posizionamento sulla superficie del tavolo
@@ -168,9 +171,7 @@ void draw() {
   obstacle_factory(xo2, yo2, ro2, ho2, id_o2, 0, is_target2);
   obstacle_factory(xo3, yo3, ro3, ho3, id_o3, -PI/6, is_target3 );
 
-  fill(GREEN);
   obstacle_factory(xot, yot, r_target, h_target, id_target, PI/12, ist_t);
-
 
 
   fill(10, 100, 255);
@@ -186,8 +187,6 @@ void draw() {
   popMatrix();
   fill(0);
 
-
-  //global_collision_roomba(pos_x_r, pos_y_r, r_r, x_obs, y_obs, r_obs);
   strokeWeight(3);
 
 

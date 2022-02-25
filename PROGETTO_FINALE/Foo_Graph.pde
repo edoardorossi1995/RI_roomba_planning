@@ -24,8 +24,8 @@ void print_tree() {
   for (Node ni : nodes) {
 
     strokeWeight(5);
-    fill(255);
-    stroke(255);
+    fill(LINK);
+    stroke(LINK);
 
     circle(ni.x, ni.y, r_node);
     fill(0);
