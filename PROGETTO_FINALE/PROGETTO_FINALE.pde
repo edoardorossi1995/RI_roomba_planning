@@ -5,6 +5,7 @@
  Per grafo di visibilità: individuare i vertici come oggetti con coordinate note al sistema
  */
 
+import grafica.*;
 
 // parametri visualizzazione
 float angoloX = 0;
