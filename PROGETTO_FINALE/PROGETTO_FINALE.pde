@@ -70,7 +70,7 @@ int id_o3 = 3;
 
 //variabili scanner
 boolean s = false;   //variabile scanner
-int num_iter = 800;
+int num_iter = 500;
 float start_alpha = (2*PI)/num_iter;
 float alpha = start_alpha;
 float laser_length = 600*sqrt(2);
@@ -100,6 +100,13 @@ ArrayList<Node> visited_nodes;
 int j = 0;
 boolean arrived = false;
 ArrayList<Node> path;
+float x1, x2, y1, y2;
+float A, B, C, D;
+
+
+float t = 0; // timer globale
+float Dt = 30;  //NON è un differenziale: tf = ti + Dt
+float ti;
 
 
 // colors
@@ -214,6 +221,19 @@ void draw() {
       next_node = nodes.get(exploring_node);
 
       path = find_path(current_node, next_node);
+
+      x1 = path.get(j).x;
+      y1 = path.get(j).y;
+      x2 = path.get(j+1).x;
+      y2 = path.get(j+1).y;
+
+      t = 0;
+      ti = t;
+
+      A = (2*pow(ti, 3)+3*Dt*pow(ti, 2))/(pow(Dt, 3));
+      B = -(6*pow(ti, 2)+6*Dt*ti)/(pow(Dt, 3));
+      C = (6*ti+3*Dt)/(pow(Dt, 3));
+      D = -2/(pow(Dt, 3));
     }
   } else {
     //fase di movimento
@@ -221,51 +241,55 @@ void draw() {
     if (!s) {
       //scan terminato, target non trovato
 
-
-
       if (!arrived) {
 
         for (Node n : path) {
           println(n.label);
         }
-        println("//////");
 
         print_tree();
 
-        float x1, x2, y1, y2;
-
-        x1 = path.get(j).x;
-        y1 = path.get(j).y;
-        x2 = path.get(j+1).x;
-        y2 = path.get(j+1).y;
 
         float[] new_pos = move(x1, y1, x2, y2);
 
         pos_x_r = new_pos[0];
         pos_y_r = new_pos[1];
 
+        float toll2 = 1;
 
-
-
-
-        //delay(2000);
-        //pos_x_r = path.get(j).x;
-        //pos_y_r = path.get(j).y;
-
-        if (x1 == x2 && y1 == y2) {
+        if (abs(pos_x_r - x2) < toll2 && abs(pos_y_r - y2) < toll2 ) {
+          
           j++;
-        }
+          
+          if (j < (path.size() -1)) {
 
+            /* se sono arrivato in un nodo non punto finale del path, inizializzo nuovamente le variabili di definizione traiettoria */
+            println(" j =", j, "path size = ", path.size()-1);
 
-        if (j == path.size() - 1) {
-          /* se sono arrivato all'ultimo nodo dell'array path */
-          //arrived = true;
+            x1 = path.get(j).x;
+            y1 = path.get(j).y;
+            x2 = path.get(j+1).x;
+            y2 = path.get(j+1).y;
 
-          current_node = next_node;
-          pos_x_r = current_node.x;
-          pos_y_r = current_node.y;
+            t = 0;
+            ti = t;
 
-          token = true;
+            A = (2*pow(ti, 3)+3*Dt*pow(ti, 2))/(pow(Dt, 3));
+            B = -(6*pow(ti, 2)+6*Dt*ti)/(pow(Dt, 3));
+            C = (6*ti+3*Dt)/(pow(Dt, 3));
+            D = -2/(pow(Dt, 3));
+          } else if (j == (path.size() - 1)) {
+
+            /* se sono arrivato all'ultimo nodo dell'array path */
+
+            //arrived = true;
+
+            current_node = next_node;
+            //pos_x_r = current_node.x;
+            //pos_y_r = current_node.y;
+
+            token = true;
+          }
         }
       }
     } else {  // qui ci dovrà essere il reset del target e del grafo
@@ -285,5 +309,6 @@ void draw() {
 
   popMatrix();
   noStroke();
-  i++;
+
+  t++;
 }

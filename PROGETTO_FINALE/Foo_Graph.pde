@@ -97,14 +97,17 @@ ArrayList<Node> find_path(Node source, Node dest) {
 }
 
 
-float[] move(float x1, float y1, float x2, float y2){
-  
-  float[] new_pos = {x1,y1};
-  
+float[] move(float x1, float y1, float x2, float y2) {
+
+  float[] new_pos = {x1, y1};
+
   /*  IMPLEMENTAZIONE LEGGE ORARIA */
+
+  float q_t = A*pow(t, 3) + B*pow(t, 2) + C*t + D;
+
+  new_pos[0] = x1 + q_t*(x2-x1);
+  new_pos[1] = y1 + q_t*(y2-y1);
   
-  
+
   return new_pos;
-  
-  
 }
