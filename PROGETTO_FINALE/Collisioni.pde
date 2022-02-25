@@ -1,39 +1,6 @@
 /* la funzione collision() ritorna false se NON ci sono collisioni.
  Dunque il movimento sarà lecito se effettivamente il ritorno sarà negativo */
 
-boolean collision(float x_r, float y_r, float r_r, float x_o, float y_o, float r_o ) {
-
-  float distanza_centri = abs(sqrt(pow(x_r - x_o, 2) + pow(y_r-y_o, 2) ) );
-
-  if (distanza_centri > r_r + r_o) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-/* la funzione globa_collision_roomba() verifica se ci sono collisioni del roomba con almeno un ostacolo o con i bordi della mappa */
-
-boolean global_collision_roomba(float x_r, float y_r, float r_r, float[] x_obs, float[] y_obs, float[] r_obs) {
-
-  int l = x_obs.length;
-
-  for (int i = 0; i< l; i++) {
-
-    if  (collision(x_r, y_r, r_r, x_obs[i], y_obs[i], r_obs[i])) {
-      println("true");
-      return true;
-    }
-  }
-
-  if ((abs(x_r) + r_r >= floor_x/2)  || (abs(y_r) + r_r >= floor_y/2)) {
-    println("true");
-    return true;
-  }
-
-  println("false");
-  return false;
-}
 
 
 float[] intersectionLine(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) {
@@ -185,7 +152,7 @@ boolean min_distance(float x1, float y1, float x2, float y2) {
 //dell'oggetto all'interno di cui si trova, oppure -1 se non appartiene a nessun oggetto
 int is_in_obstacle(float x_0, float y_0) {
   float x_1, y_1, beta, px, py;
-  float tol = 0.01; //valore di tolleranza numerica (perché sin e cos sono approx) 
+  float tol = 1.0; //valore di tolleranza numerica (perché sin e cos sono approx) 
   for (Obstacle ob : obstacle_ArrayList) {      //x_1,y_1 sono le coordinate del punto rispetto al SR dell'oggetto ob
     beta = ob.phi;
     px = ob.pos_x_obs;

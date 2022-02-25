@@ -30,9 +30,9 @@ int MAX_OB = 4;
 
 int sides = 6;
 
-float xot = -80;
-float yot = -260;
-float r_target = 10;
+float xot = 120;
+float yot = 0;
+float r_target = 4;
 float h_target = 5;
 boolean ist_t = true;
 
@@ -70,7 +70,7 @@ int id_o3 = 3;
 
 //variabili scanner
 boolean s = false;   //variabile scanner
-int num_iter = 500;
+int num_iter = 900;
 float start_alpha = (2*PI)/num_iter;
 float alpha = start_alpha;
 float laser_length = 600*sqrt(2);
@@ -163,8 +163,8 @@ void draw() {
   translate(0, 0, 5);
   SR3D();
 
-  obstacle_factory(xo1, yo1, ro1, ho1, id_o1, PI/3, is_target1);
-  obstacle_factory(xo2, yo2, ro2, ho2, id_o2, PI/4, is_target2);
+  obstacle_factory(xo1, yo1, ro1, ho1, id_o1, PI, is_target1);
+  obstacle_factory(xo2, yo2, ro2, ho2, id_o2, 0, is_target2);
   obstacle_factory(xo3, yo3, ro3, ho3, id_o3, -PI/6, is_target3 );
 
   fill(GREEN);
@@ -206,8 +206,26 @@ void draw() {
     if (s) {
 
       // cambia token quando lo scanner trova il target, e lo passa all'else responsabile della fase di movimento
-
       token = false;
+
+      j = 0;
+      exploring_node++;
+      next_node = nodes.get(exploring_node);
+
+      path = find_path(current_node, next_node);
+
+      x1 = path.get(j).x;
+      y1 = path.get(j).y;
+      x2 = xot;//path.get(j+1).x;
+      y2 = yot;//path.get(j+1).y;
+
+      t = 0;
+      ti = t;
+
+      A = (2*pow(ti, 3)+3*Dt*pow(ti, 2))/(pow(Dt, 3));
+      B = -(6*pow(ti, 2)+6*Dt*ti)/(pow(Dt, 3));
+      C = (6*ti+3*Dt)/(pow(Dt, 3));
+      D = -2/(pow(Dt, 3));
     }
 
     if (alpha >= 0 && alpha <start_alpha ) {  //ciclo di scan completo => cambia token per muoversi
@@ -258,9 +276,9 @@ void draw() {
         float toll2 = 1;
 
         if (abs(pos_x_r - x2) < toll2 && abs(pos_y_r - y2) < toll2 ) {
-          
+
           j++;
-          
+
           if (j < (path.size() -1)) {
 
             /* se sono arrivato in un nodo non punto finale del path, inizializzo nuovamente le variabili di definizione traiettoria */
@@ -295,9 +313,17 @@ void draw() {
     } else {  // qui ci dovrà essere il reset del target e del grafo
 
 
-      pos_x_r = xot;
-      pos_y_r = yot;
-      token = true;
+
+      float toll2 = 1;
+
+      if (abs(pos_x_r - x2) < toll2 && abs(pos_y_r - y2) < toll2 ) {
+        print_tree();
+      } else {
+        print_tree();
+        float[] new_pos = move(x1, y1, x2, y2);
+        pos_x_r = new_pos[0];
+        pos_y_r = new_pos[1];
+      }
     }
   }
 

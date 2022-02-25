@@ -47,6 +47,7 @@ class Obstacle {
       box(r_o, r_o, h_o);
 
       fill(0, 0, 0, 20);
+      noStroke();
       box(r_o+r_r, r_o+r_r, h_o-5);  //secondo ostacolo, trasparente
 
 

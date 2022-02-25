@@ -86,10 +86,10 @@ boolean scan(float x, float y, float len_max, color colore) {    //x,y coordinat
   noStroke();
   popMatrix(); //mi riporto alle coordinate inerziali
 
-  fill(0, 0, 255);
-  if (alpha >= 2*(2*PI)/num_iter) {
-    circle(x_vert, y_vert, 30);  // vertice rilevato
-  }
+  //fill(0, 0, 255);
+  //if (alpha >= 2*(2*PI)/num_iter) {
+  //  circle(x_vert, y_vert, 30);  // vertice rilevato
+  //}
 
   fill(0);
   alpha = (alpha + (2*PI)/num_iter) %(2*PI);
