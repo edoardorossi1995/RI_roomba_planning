@@ -55,7 +55,7 @@ boolean scan(float x, float y, float len_max, color colore) {    //x,y coordinat
   
   
 
-
+  // laser
   if (!same_obstacle) {
     stroke(180,0,0);
     circle(xi, yi, 5);

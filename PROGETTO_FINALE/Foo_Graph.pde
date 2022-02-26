@@ -39,6 +39,10 @@ void print_tree() {
       strokeWeight(1);
       line(ni.x, ni.y, near.x, near.y);
     }
+    
+    if (s) {      
+      line(current_node.x,current_node.y , xot,yot );
+    }
   }
 }
 

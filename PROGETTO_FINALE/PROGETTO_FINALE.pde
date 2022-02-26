@@ -1,7 +1,9 @@
 /*  PROGETTO ROBOTICA INDUSTRIALE: pianificazione del moto di un robot in una mappa non nota, tramite realizzazione di un grafo di visibilità.
-
-Il flusso di esecuzione è esecuzione è il seguente:
-- fase di scan e individuazione
+ 
+ Il flusso di esecuzione è il seguente:
+ - fase di scan e individuazione del target, fino al verificarsi di una condizione tra target trovato o ciclo di scan di 2*PI terminato
+ - per ogni terna di punti tali che le rette passanti per i punti 1,2 e 2,3 ha una differenza di pendenza sufficiente, si determina un vertice
+ - il path viene inizializzato e il controllo passa alla parte di movimento
  */
 
 
@@ -29,12 +31,12 @@ float lenAxis = 50;
 float arrows = 0.1*lenAxis;
 
 // variabili disegno ostacoli
-int MAX_OB = 4;
+int MAX_OB = 3;
 
 int sides = 6;
 
-float xot = -60;
-float yot = 60;
+float xot = 250;
+float yot = 150;
 float r_target = 10;
 float h_target = 5;
 boolean ist_t = true;
@@ -51,16 +53,29 @@ float ro2 = 90;
 float ho2 = 10;
 boolean is_target2 = false;
 
-float xo3 = 100;
-float yo3 = -100;
+float xo3 = 140;
+float yo3 = -140;
 float ro3 = 100;
 float ho3 = 10;
 boolean is_target3 = false;
 
-float[] x_obs = {xot, xo1, xo2, xo3};
-float[] y_obs = {yot, yo1, yo2, yo3};
-float[] r_obs = {r_target, ro1, ro2, ro3};
-float[] h_obs = {h_target, ho1, ho2, ho3};
+//variabili creazione interattiva ostacoli
+
+float pos_xo = 0;
+float pos_yo = 0;
+float r_obs = 100;
+float beta_obs = 0;
+float h_obs = 10;
+int id_o = 2;
+
+int semaforo_obs = 0;
+boolean sovrapposizione = false;
+
+
+//float[] x_obs = {xot, xo1, xo2, xo3};
+//float[] y_obs = {yot, yo1, yo2, yo3};
+//float[] r_obs = {r_target, ro1, ro2, ro3};
+//float[] h_obs = {h_target, ho1, ho2, ho3};
 
 ArrayList<Obstacle> obstacle_ArrayList= new ArrayList<Obstacle>();
 
@@ -69,7 +84,8 @@ int id_o1 = 1;
 int id_o2 = 2;
 int id_o3 = 3;
 
-
+//variabile per determinare la fase di selezionamento degli ostacoli. se false, esegue il planning
+boolean selezione_ostacoli = true;
 
 //variabili scanner
 boolean s = false;   //variabile scanner
@@ -126,6 +142,7 @@ color WHITE_TABLE = color(220);
 color LINK = #4BA240;
 color ORANGE = #EA8D2F;
 color TARGET = #9540A2;
+color TEMP_BOX_RED = #8E3636;
 
 void setup() {
 
@@ -138,7 +155,6 @@ void setup() {
   tree = new Tree(first_root);
   visited_nodes = new ArrayList<Node>();
   current_node = first_root;
-  
 }
 
 void draw() {
@@ -167,11 +183,18 @@ void draw() {
   translate(0, 0, 5);
   SR3D();
 
-  obstacle_factory(xo1, yo1, ro1, ho1, id_o1, PI, is_target1);
+  /* creazione 2 ostacoli di default */
+  obstacle_factory(xo1, yo1, ro1, ho1, id_o1, PI/4, is_target1);
   obstacle_factory(xo2, yo2, ro2, ho2, id_o2, 0, is_target2);
-  obstacle_factory(xo3, yo3, ro3, ho3, id_o3, -PI/6, is_target3 );
 
+  /* creazione target */
   obstacle_factory(xot, yot, r_target, h_target, id_target, PI/12, ist_t);
+
+
+  for (Obstacle o : obstacle_ArrayList) {
+    obstacle_factory(o.pos_x_obs, o.pos_y_obs, o.r_obs, o.h_obs, o.id_num, o.phi, o.is_t);
+  }
+
 
 
   fill(10, 100, 255);
@@ -187,152 +210,176 @@ void draw() {
   popMatrix();
   fill(0);
 
-  strokeWeight(3);
 
 
+  if (selezione_ostacoli) {
 
-  if (token) {
+    noStroke();
+    
+    /*
+    
+     GESTIONE OSTACOLI INTERATTIVA:
+     non entra nel flusso di planning
+     
+     */
+    if (semaforo_obs != 0) {
+      pushMatrix();
+      translate(pos_xo, pos_yo, h_obs/2);
+      rotateZ(beta_obs);
 
-    //fase di scan
-
-    s = scan(pos_x_r, pos_y_r, laser_length, RED);
-    if (vertex_found) {
-      //aggiungo nodo solo quando trovo un nuovo vertice
-      make_tree(current_node); //funzione che aggiunge il vertice eventualmente detectato ai links del current node
-      vertex_found = false;
-    }
-    print_tree();
-
-    if (s) {
-
-      // cambia token quando lo scanner trova il target, e lo passa all'else responsabile della fase di movimento
-      token = false;
-
-      j = 0;
-      exploring_node++;
-      next_node = nodes.get(exploring_node);
-
-      path = find_path(current_node, next_node);
-
-      x1 = path.get(j).x;
-      y1 = path.get(j).y;
-      x2 = xot;//path.get(j+1).x;
-      y2 = yot;//path.get(j+1).y;
-
-      t = 0;
-      ti = t;
-
-      A = (2*pow(ti, 3)+3*Dt*pow(ti, 2))/(pow(Dt, 3));
-      B = -(6*pow(ti, 2)+6*Dt*ti)/(pow(Dt, 3));
-      C = (6*ti+3*Dt)/(pow(Dt, 3));
-      D = -2/(pow(Dt, 3));
+      fill(TEMP_BOX_RED);
+      box(r_obs, r_obs, h_obs);
+      fill(0, 0, 0, 20);
+      box(r_obs+r_r, r_obs+r_r, h_obs-5);
+      popMatrix();
     }
 
-    if (alpha >= 0 && alpha <start_alpha ) {  //ciclo di scan completo => cambia token per muoversi
-
-      token = false;
-      arrived = false;
-
-      //inizializza il path una volta che lo scan è finito per preparare il percorso
-      j = 0;
-      exploring_node++;
-      next_node = nodes.get(exploring_node);
-
-      path = find_path(current_node, next_node);
-
-      x1 = path.get(j).x;
-      y1 = path.get(j).y;
-      x2 = path.get(j+1).x;
-      y2 = path.get(j+1).y;
-
-      t = 0;
-      ti = t;
-
-      A = (2*pow(ti, 3)+3*Dt*pow(ti, 2))/(pow(Dt, 3));
-      B = -(6*pow(ti, 2)+6*Dt*ti)/(pow(Dt, 3));
-      C = (6*ti+3*Dt)/(pow(Dt, 3));
-      D = -2/(pow(Dt, 3));
-    }
+    println(sovrapposizione);
   } else {
-    //fase di movimento
 
-    if (!s) {
-      //scan terminato, target non trovato
+    /* flusso di scan e planning */
+    strokeWeight(3);
+    if (token) {
 
-      if (!arrived) {
+      //fase di scan
 
-        for (Node n : path) {
-          println(n.label);
+      s = scan(pos_x_r, pos_y_r, laser_length, RED);
+      if (vertex_found) {
+        //aggiungo nodo solo quando trovo un nuovo vertice
+        make_tree(current_node); //funzione che aggiunge il vertice eventualmente detectato ai links del current node
+        vertex_found = false;
+      }
+      print_tree();
+
+      if (s) {
+
+        // cambia token quando lo scanner trova il target, e lo passa all'else responsabile della fase di movimento
+        token = false;
+
+        j = 0;
+        exploring_node++;
+        next_node = nodes.get(exploring_node);
+
+        path = find_path(current_node, next_node);
+
+        x1 = path.get(j).x;
+        y1 = path.get(j).y;
+        x2 = xot;//path.get(j+1).x;
+        y2 = yot;//path.get(j+1).y;
+
+        t = 0;
+        ti = t;
+
+        A = (2*pow(ti, 3)+3*Dt*pow(ti, 2))/(pow(Dt, 3));
+        B = -(6*pow(ti, 2)+6*Dt*ti)/(pow(Dt, 3));
+        C = (6*ti+3*Dt)/(pow(Dt, 3));
+        D = -2/(pow(Dt, 3));
+      }
+
+      if (alpha >= 0 && alpha <start_alpha ) {  //ciclo di scan completo => cambia token per muoversi
+
+        token = false;
+        arrived = false;
+
+        //inizializza il path una volta che lo scan è finito per preparare il percorso
+        j = 0;
+        exploring_node++;
+        next_node = nodes.get(exploring_node);
+
+        path = find_path(current_node, next_node);
+
+        x1 = path.get(j).x;
+        y1 = path.get(j).y;
+        x2 = path.get(j+1).x;
+        y2 = path.get(j+1).y;
+
+        t = 0;
+        ti = t;
+
+        A = (2*pow(ti, 3)+3*Dt*pow(ti, 2))/(pow(Dt, 3));
+        B = -(6*pow(ti, 2)+6*Dt*ti)/(pow(Dt, 3));
+        C = (6*ti+3*Dt)/(pow(Dt, 3));
+        D = -2/(pow(Dt, 3));
+      }
+    } else {
+      //fase di movimento
+
+      if (!s) {
+        //scan terminato, target non trovato
+
+        if (!arrived) {
+
+          for (Node n : path) {
+            println(n.label);
+          }
+
+          print_tree();
+
+
+          float[] new_pos = move(x1, y1, x2, y2);
+
+          pos_x_r = new_pos[0];
+          pos_y_r = new_pos[1];
+
+          float toll2 = 1;
+
+          if (abs(pos_x_r - x2) < toll2 && abs(pos_y_r - y2) < toll2 ) {
+
+            j++;
+
+            if (j < (path.size() -1)) {
+
+              /* se sono arrivato in un nodo non punto finale del path, inizializzo nuovamente le variabili di definizione traiettoria */
+              println(" j =", j, "path size = ", path.size()-1);
+
+              x1 = path.get(j).x;
+              y1 = path.get(j).y;
+              x2 = path.get(j+1).x;
+              y2 = path.get(j+1).y;
+
+              t = 0;
+              ti = t;
+
+              A = (2*pow(ti, 3)+3*Dt*pow(ti, 2))/(pow(Dt, 3));
+              B = -(6*pow(ti, 2)+6*Dt*ti)/(pow(Dt, 3));
+              C = (6*ti+3*Dt)/(pow(Dt, 3));
+              D = -2/(pow(Dt, 3));
+            } else if (j == (path.size() - 1)) {
+
+              /* se sono arrivato all'ultimo nodo dell'array path */
+
+              //arrived = true;
+
+              current_node = next_node;
+              //pos_x_r = current_node.x;
+              //pos_y_r = current_node.y;
+
+              token = true;
+            }
+          }
         }
+      } else {  // if (s)
 
-        print_tree();
 
-
-        float[] new_pos = move(x1, y1, x2, y2);
-
-        pos_x_r = new_pos[0];
-        pos_y_r = new_pos[1];
 
         float toll2 = 1;
 
         if (abs(pos_x_r - x2) < toll2 && abs(pos_y_r - y2) < toll2 ) {
-
-          j++;
-
-          if (j < (path.size() -1)) {
-
-            /* se sono arrivato in un nodo non punto finale del path, inizializzo nuovamente le variabili di definizione traiettoria */
-            println(" j =", j, "path size = ", path.size()-1);
-
-            x1 = path.get(j).x;
-            y1 = path.get(j).y;
-            x2 = path.get(j+1).x;
-            y2 = path.get(j+1).y;
-
-            t = 0;
-            ti = t;
-
-            A = (2*pow(ti, 3)+3*Dt*pow(ti, 2))/(pow(Dt, 3));
-            B = -(6*pow(ti, 2)+6*Dt*ti)/(pow(Dt, 3));
-            C = (6*ti+3*Dt)/(pow(Dt, 3));
-            D = -2/(pow(Dt, 3));
-          } else if (j == (path.size() - 1)) {
-
-            /* se sono arrivato all'ultimo nodo dell'array path */
-
-            //arrived = true;
-
-            current_node = next_node;
-            //pos_x_r = current_node.x;
-            //pos_y_r = current_node.y;
-
-            token = true;
-          }
+          print_tree();
+        } else {
+          print_tree();
+          float[] new_pos = move(x1, y1, x2, y2);
+          pos_x_r = new_pos[0];
+          pos_y_r = new_pos[1];
         }
-      }
-    } else {  // qui ci dovrà essere il reset del target e del grafo
-
-
-
-      float toll2 = 1;
-
-      if (abs(pos_x_r - x2) < toll2 && abs(pos_y_r - y2) < toll2 ) {
-        print_tree();
-      } else {
-        print_tree();
-        float[] new_pos = move(x1, y1, x2, y2);
-        pos_x_r = new_pos[0];
-        pos_y_r = new_pos[1];
       }
     }
   }
 
-  //movimento => cambio nodo
 
 
 
   fill(0);
-
   popMatrix();
   noStroke();
 

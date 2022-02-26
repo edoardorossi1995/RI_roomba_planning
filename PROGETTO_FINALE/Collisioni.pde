@@ -148,11 +148,11 @@ boolean min_distance(float x1, float y1, float x2, float y2) {
 
 
 
-//funzione che, prese in ingresso le coordinate inerziali di un punto, resistuisce l'id 
+//funzione che, prese in ingresso le coordinate inerziali di un punto, resistuisce l'id
 //dell'oggetto all'interno di cui si trova, oppure -1 se non appartiene a nessun oggetto
 int is_in_obstacle(float x_0, float y_0) {
   float x_1, y_1, beta, px, py;
-  float tol = 1.0; //valore di tolleranza numerica (perché sin e cos sono approx) 
+  float tol = 1.0; //valore di tolleranza numerica (perché sin e cos sono approx)
   for (Obstacle ob : obstacle_ArrayList) {      //x_1,y_1 sono le coordinate del punto rispetto al SR dell'oggetto ob
     beta = ob.phi;
     px = ob.pos_x_obs;
@@ -160,8 +160,58 @@ int is_in_obstacle(float x_0, float y_0) {
     x_1 = cos(beta)*(x_0 - px) + sin(beta)*(y_0 - py);
     y_1 = cos(beta)*(y_0 - py) + sin(beta)*(px - x_0);
     if (abs(x_1) <= ((ob.r_obs + r_r)/2 + tol) && abs(y_1) <= ((ob.r_obs + r_r)/2 + tol)) {
+      //controllo sull'ostacolo aumentato
       return ob.getID();
     }
   }
   return -1;
+}
+
+boolean square_compenetration(float pos_xo, float pos_yo, float r_obs, float beta_obs) {
+
+  /*la funzione verifica se ci sono compenetrazioni tra ostacolo da inserire e ostacolo esistente */
+  
+  
+  /* qui verifica se l'ostacolo da inserire ha vertici che compenetrano un ostacolo esistente */  
+  float[] vert_ghost_obs = new float[8];
+
+  vert_ghost_obs[0] = (-r_obs/2-r_r/2)*(cos(beta_obs)-sin(beta_obs))+pos_xo;
+  vert_ghost_obs[1] = (-r_obs/2-r_r/2)*(cos(beta_obs)+sin(beta_obs))+pos_yo;
+  vert_ghost_obs[2] = (r_obs/2+r_r/2)*(cos(beta_obs)+sin(beta_obs))+pos_xo;
+  vert_ghost_obs[3] = (-r_obs/2-r_r/2)*(cos(beta_obs)-sin(beta_obs))+pos_yo;
+  vert_ghost_obs[4] = (-r_obs/2-r_r/2)*(cos(beta_obs)+sin(beta_obs))+pos_xo;
+  vert_ghost_obs[5] = (-r_obs/2-r_r/2)*(-cos(beta_obs)+sin(beta_obs))+pos_yo;
+  vert_ghost_obs[6] = (-r_obs/2-r_r/2)*(-cos(beta_obs)+sin(beta_obs))+pos_xo;
+  vert_ghost_obs[7] = (r_obs/2+r_r/2)*(cos(beta_obs)+sin(beta_obs))+pos_yo;
+
+  boolean v1 = false;
+
+  for (int i = 0; i < 8; i=i+2) {
+    if (is_in_obstacle(vert_ghost_obs[i], vert_ghost_obs[i+1]) != -1 ) {
+      v1 = true;
+      return v1;
+    }
+  }
+
+
+  /* qui verifica se l'ostacolo da inserire è compenetrato da vertici di un ostacolo esistente */
+  
+  float tol = 1;
+  float x_0, y_0, x_1, y_1;
+
+  for (Obstacle o : obstacle_ArrayList) {
+    for (int j = 0; j < 8; j  = j+2) {
+      x_0 = o.vert_SR0_ph[j];
+      y_0 = o.vert_SR0_ph[j+1];
+      x_1 = cos(beta_obs)*(x_0 - pos_xo) + sin(beta_obs)*(y_0 - pos_yo);
+      y_1 = cos(beta_obs)*(y_0 - pos_yo) + sin(beta_obs)*(pos_xo - x_0);
+      if (abs(x_1) <= ((r_obs + r_r)/2 + tol) && abs(y_1) <= ((r_obs + r_r)/2 + tol)) {
+        //controllo sull'ostacolo aumentato
+        v1 = true;
+        return v1;
+      }
+    }
+  }
+
+  return v1;
 }

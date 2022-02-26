@@ -44,6 +44,7 @@ class Obstacle {
       
       /* disegno ostacolo */
       fill(ORANGE);
+      noStroke();
       box(r_o, r_o, h_o);
 
       /* disegno ostacolo allargato */
