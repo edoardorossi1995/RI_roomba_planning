@@ -39,9 +39,9 @@ void print_tree() {
       strokeWeight(1);
       line(ni.x, ni.y, near.x, near.y);
     }
-    
-    if (s) {      
-      line(current_node.x,current_node.y , xot,yot );
+
+    if (s) {
+      line(current_node.x, current_node.y, xot, yot );
     }
   }
 }
@@ -111,7 +111,17 @@ float[] move(float x1, float y1, float x2, float y2) {
 
   new_pos[0] = x1 + q_t*(x2-x1);
   new_pos[1] = y1 + q_t*(y2-y1);
-  
+
 
   return new_pos;
 }
+
+//void print_path(ArrayList<Node> v_nodes, color col) {
+//  for (int i = 0; i < v_nodes.size()-2; i++) {
+    
+//    strokeWeight(5);
+//    stroke(col);
+    
+//    line(v_nodes.get(i).x, v_nodes.get(i).y, v_nodes.get(i+1).x, v_nodes.get(i+1).y);
+//  }
+//}

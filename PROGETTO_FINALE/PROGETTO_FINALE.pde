@@ -35,7 +35,7 @@ int MAX_OB = 3;
 
 int sides = 6;
 
-float xot = 250;
+float xot = 200;
 float yot = 150;
 float r_target = 10;
 float h_target = 5;
@@ -111,6 +111,7 @@ float y_home = pos_y_r;
 
 Node current_node, next_node;
 Tree tree;
+Node target;
 ArrayList<Node> nodes;
 float r_node = 10;
 int exploring_node = 0;
@@ -144,6 +145,8 @@ color ORANGE = #EA8D2F;
 color TARGET = #9540A2;
 color TEMP_BOX_RED = #8E3636;
 
+int slack = 35;
+
 void setup() {
 
   fullScreen(P3D);
@@ -151,6 +154,7 @@ void setup() {
   //roomba = loadShape("iRobot_iCreate.obj");
 
   Node first_root = new Node("source", x_home, y_home);
+  //Node target = new Node("target", xot, yot);
   nodes = new ArrayList<Node>();
   tree = new Tree(first_root);
   visited_nodes = new ArrayList<Node>();
@@ -215,7 +219,7 @@ void draw() {
   if (selezione_ostacoli) {
 
     noStroke();
-    
+
     /*
     
      GESTIONE OSTACOLI INTERATTIVA:
@@ -233,8 +237,6 @@ void draw() {
       box(r_obs+r_r, r_obs+r_r, h_obs-5);
       popMatrix();
     }
-
-    println(sovrapposizione);
   } else {
 
     /* flusso di scan e planning */
@@ -264,8 +266,8 @@ void draw() {
 
         x1 = path.get(j).x;
         y1 = path.get(j).y;
-        x2 = xot;//path.get(j+1).x;
-        y2 = yot;//path.get(j+1).y;
+        x2 = xot;
+        y2 = yot;
 
         t = 0;
         ti = t;
@@ -306,12 +308,13 @@ void draw() {
 
       if (!s) {
         //scan terminato, target non trovato
+        //visited_nodes.add(path.get(j));
 
         if (!arrived) {
 
-          for (Node n : path) {
-            println(n.label);
-          }
+          //for (Node n : path) {
+          //  println(n.label);
+          //}
 
           print_tree();
 
@@ -330,7 +333,8 @@ void draw() {
             if (j < (path.size() -1)) {
 
               /* se sono arrivato in un nodo non punto finale del path, inizializzo nuovamente le variabili di definizione traiettoria */
-              println(" j =", j, "path size = ", path.size()-1);
+
+
 
               x1 = path.get(j).x;
               y1 = path.get(j).y;
@@ -360,12 +364,17 @@ void draw() {
         }
       } else {  // if (s)
 
+        //visited_nodes.add(target);
 
 
         float toll2 = 1;
 
         if (abs(pos_x_r - x2) < toll2 && abs(pos_y_r - y2) < toll2 ) {
+
+
           print_tree();
+          //println(visited_nodes.size());
+          //print_path(visited_nodes, TEMP_BOX_RED);
         } else {
           print_tree();
           float[] new_pos = move(x1, y1, x2, y2);
@@ -381,6 +390,37 @@ void draw() {
 
   fill(0);
   popMatrix();
+
+  textSize(25);
+  stroke(0);
+
+  if (selezione_ostacoli) {
+    text("ISTRUZIONI PER L'USO", 30, 30);
+    if (semaforo_obs == 0) {
+      text("Premere 'o' per avviare la creazione di un ostacolo", 30, 65);
+    }
+    if (semaforo_obs == 1) {
+      text("Premere UP/DOWN per regolare la dimensione, LEFT/RIGHT per orientarlo", 30, 65);
+      text("Premere TAB per procedere", 30, 100);
+    }
+    if (semaforo_obs == 2) {
+      text("Premere UP/DOWN/LEFT/RIGHT per posizionarlo", 30, 65);
+      text("Premere SHIFT per instanziare l'ostacolo", 30, 100);
+    }
+    if (sovrapposizione) {
+      fill(RED);
+      text("Sovrapposizione: posizionare l'ostacolo evitando sovrapposizioni con ostacoli già esistenti", 30, 135);
+    }
+    fill(0);
+
+    fill(ROOMBA_GREEN);
+    text("Premere ENTER per avviare l'esecuzione", 30, 170);
+  }
+
+
+
+
+
   noStroke();
 
   t++;

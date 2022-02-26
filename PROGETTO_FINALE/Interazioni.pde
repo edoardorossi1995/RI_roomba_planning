@@ -23,7 +23,6 @@ void keyPressed() {
   }
 
   if (selezione_ostacoli) {
-    println("in selezione ostacoli");
     if (keyCode == ENTER ) {
 
       /* termina fase di crezione ostacoli */
@@ -47,7 +46,8 @@ void keyPressed() {
     if (semaforo_obs == 1) {
       /* forma ostacolo  */
 
-
+      sovrapposizione = square_compenetration(pos_xo, pos_yo, r_obs, beta_obs);
+      
       if (keyCode == UP) {
         r_obs  += 5;
       }
