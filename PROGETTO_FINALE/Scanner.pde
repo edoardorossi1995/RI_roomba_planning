@@ -46,8 +46,9 @@ boolean scan(float x, float y, float len_max, color colore) {    //x,y coordinat
   detected_obs = is_in_obstacle(xi_0, yi_0);        // ID dell'ostacolo su cui 'poggia' il laser
   
 
-  if (is_in_obstacle(x, y) == detected_obs && (detected_obs != -1)) {        //se il laser e l'oggetto si trovano lungo 
-    //i lati dello stesso oggetto same_obstacle è true
+  if (is_in_obstacle(x, y) == detected_obs && (detected_obs != -1)) {        
+    /* se il laser e l'oggetto si trovano lungo 
+    i lati dello stesso oggetto, same_obstacle è true */
     same_obstacle = true;
   } else {
     same_obstacle = false;

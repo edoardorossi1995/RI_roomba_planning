@@ -146,10 +146,9 @@ boolean min_distance(float x1, float y1, float x2, float y2) {
 
 
 
-
-
 //funzione che, prese in ingresso le coordinate inerziali di un punto, resistuisce l'id
 //dell'oggetto all'interno di cui si trova, oppure -1 se non appartiene a nessun oggetto
+
 int is_in_obstacle(float x_0, float y_0) {
   float x_1, y_1, beta, px, py;
   float tol = 1.0; //valore di tolleranza numerica (perché sin e cos sono approx)
@@ -161,18 +160,23 @@ int is_in_obstacle(float x_0, float y_0) {
     y_1 = cos(beta)*(y_0 - py) + sin(beta)*(px - x_0);
     if (abs(x_1) <= ((ob.r_obs + r_r)/2 + tol) && abs(y_1) <= ((ob.r_obs + r_r)/2 + tol)) {
       //controllo sull'ostacolo aumentato
+      println("ob ID = ",ob.getID());
       return ob.getID();
     }
   }
+        println("ob ID = ",-1);
+
   return -1;
 }
 
+
+/*la funzione verifica se ci sono compenetrazioni tra ostacolo da inserire e ostacolo esistente */
+
 boolean square_compenetration(float pos_xo, float pos_yo, float r_obs, float beta_obs) {
 
-  /*la funzione verifica se ci sono compenetrazioni tra ostacolo da inserire e ostacolo esistente */
-  
-  
-  /* qui verifica se l'ostacolo da inserire ha vertici che compenetrano un ostacolo esistente */  
+
+
+  /* qui verifica se l'ostacolo da inserire ha vertici che compenetrano un ostacolo esistente */
   float[] vert_ghost_obs = new float[8];
 
   vert_ghost_obs[0] = (-r_obs/2-r_r/2)*(cos(beta_obs)-sin(beta_obs))+pos_xo;
@@ -195,8 +199,8 @@ boolean square_compenetration(float pos_xo, float pos_yo, float r_obs, float bet
 
 
   /* qui verifica se l'ostacolo da inserire è compenetrato da vertici di un ostacolo esistente */
-  
-  float tol = 1;
+
+  float tol = 1.0;
   float x_0, y_0, x_1, y_1;
 
   for (Obstacle o : obstacle_ArrayList) {

@@ -168,7 +168,7 @@ void draw() {
 
   pushMatrix();
 
-  translate(width/2, height/2,-50);
+  translate(width/2, height/2, -50);
 
   rotateY(-angoloY);
   rotateX(angoloX);
@@ -187,12 +187,14 @@ void draw() {
   translate(0, 0, 5);
   SR3D();
 
+  /* creazione target */
+  obstacle_factory(xot, yot, r_target, h_target, id_target, PI/12, ist_t);
+
   /* creazione 2 ostacoli di default */
   obstacle_factory(xo1, yo1, ro1, ho1, id_o1, PI/4, is_target1);
   obstacle_factory(xo2, yo2, ro2, ho2, id_o2, 0, is_target2);
 
-  /* creazione target */
-  obstacle_factory(xot, yot, r_target, h_target, id_target, PI/12, ist_t);
+
 
 
   for (Obstacle o : obstacle_ArrayList) {
@@ -424,4 +426,9 @@ void draw() {
   noStroke();
 
   t++;
+
+  //println(obstacle_ArrayList.size());
+  //for (Obstacle o : obstacle_ArrayList) {
+  //  println("ID ostacolo = ", o.getID());
+  //}
 }
