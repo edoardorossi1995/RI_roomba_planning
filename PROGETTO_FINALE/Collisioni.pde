@@ -150,8 +150,10 @@ boolean min_distance(float x1, float y1, float x2, float y2) {
 //dell'oggetto all'interno di cui si trova, oppure -1 se non appartiene a nessun oggetto
 
 int is_in_obstacle(float x_0, float y_0) {
+
   float x_1, y_1, beta, px, py, temp ;
-  float tol = 0.5; //valore di tolleranza numerica (perché sin e cos sono approx)
+  float tol = 1.5; //valore di tolleranza numerica (perché sin e cos sono approx)
+
   for (Obstacle ob : obstacle_ArrayList) {      //x_1,y_1 sono le coordinate del punto rispetto al SR dell'oggetto ob
     beta = ob.phi;
     px = ob.pos_x_obs;
@@ -164,13 +166,16 @@ int is_in_obstacle(float x_0, float y_0) {
     } else {
       temp = ob.r_obs;
     }
+
+    
+
+
     if (abs(x_1) <= ((temp)/2 + tol) && abs(y_1) <= ((temp)/2 + tol)) {
       //controllo sull'ostacolo aumentato, tranne nel caso del target
       //println("ob ID = ", ob.getID());
       return ob.getID();
     }
   }
-  //println("ob ID = ", -1);
 
   return -1;
 }

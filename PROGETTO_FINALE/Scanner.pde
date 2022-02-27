@@ -73,7 +73,7 @@ boolean scan(float x, float y, float len_max, color colore) {    //x,y coordinat
   }
 
   if (detected_obs == id_target) { 
-    //popMatrix();
+    popMatrix();
     vertex_found = true;
     return true;
   }

@@ -39,6 +39,8 @@ void keyPressed() {
 
         pos_xo = 0;
         pos_yo = 0;
+        r_obs = 100;
+        beta_obs = 0;
 
         semaforo_obs = 1;
       }
@@ -107,6 +109,16 @@ void keyPressed() {
   if (key == '9') {
     if (!print) {
       print = true;
+    }
+  }
+  if (key == '7') {
+    if (label_print) {
+      label_print = false;
+    }
+  }
+  if (key == '8') {
+    if (!label_print) {
+      label_print = true;
     }
   }
 }

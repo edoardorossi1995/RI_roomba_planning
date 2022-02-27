@@ -1,3 +1,4 @@
+
 /*  PROGETTO ROBOTICA INDUSTRIALE: pianificazione del moto di un robot in una mappa non nota, tramite realizzazione di un grafo di visibilità.
  
  Il flusso di esecuzione è il seguente:
@@ -5,8 +6,6 @@
  - per ogni terna di punti tali che le rette passanti per i punti 1,2 e 2,3 ha una differenza di pendenza sufficiente, si determina un vertice
  - il path viene inizializzato e il controllo passa alla parte di movimento
  */
-
-
 
 
 
@@ -36,7 +35,7 @@ int MAX_OB = 3;
 int sides = 6;
 
 //Variabili target
-float xot = -200;
+float xot = -110;
 float yot = -170;
 float r_target = 10;
 float h_target = 5;
@@ -126,6 +125,7 @@ ArrayList<Node> path;
 float x1, x2, y1, y2;
 float A, B, C, D;
 boolean print = true;
+boolean label_print = true;
 
 
 float t = 0; // timer globale
@@ -148,6 +148,7 @@ color LINK = #4BA240;
 color ORANGE = #EA8D2F;
 color TARGET = #9540A2;
 color TEMP_BOX_RED = #8E3636;
+color YELLOW = #C7CE7F;
 
 int slack = 35;
 
@@ -200,7 +201,6 @@ void draw() {
 
 
 
-
   for (Obstacle o : obstacle_ArrayList) {
     obstacle_factory(o.pos_x_obs, o.pos_y_obs, o.r_obs, o.h_obs, o.id_num, o.phi, o.is_t);
   }
@@ -226,12 +226,9 @@ void draw() {
 
     noStroke();
 
-    /*
-    
-     GESTIONE OSTACOLI INTERATTIVA:
-     non entra nel flusso di planning
-     
-     */
+    /*   GESTIONE OSTACOLI INTERATTIVA:
+     non entra nel flusso di planning     */
+
     if (semaforo_obs != 0) {
       pushMatrix();
       translate(pos_xo, pos_yo, h_obs/2);
@@ -245,7 +242,9 @@ void draw() {
     }
   } else {
 
+
     /* flusso di scan e planning */
+
     strokeWeight(3);
     if (token) {
 
@@ -426,11 +425,15 @@ void draw() {
   if (!selezione_ostacoli) {
     if (print) {
       text("Premere '0' per nascondere l'albero", 30, 30);
+      if (label_print) {
+        text("Premere '7' per nascondere le label", 30, 65);
+      } else {
+        text("Premere '8' per visualizzare le label", 30, 65);
+      }
     } else {
       text("Premere '9' per visualizzare l'albero", 30, 30);
     }
   }
-
 
 
 

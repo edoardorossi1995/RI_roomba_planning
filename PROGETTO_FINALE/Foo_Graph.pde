@@ -21,7 +21,15 @@ void make_tree(Node current) {
 
 void print_tree() {
 
+  float x_c  = tree.root.x;
+  float y_c = tree.root.y;
   
+  fill(YELLOW);
+  stroke(YELLOW);
+  translate(0, 0, 2);
+  circle(x_c, y_c, 40);
+  translate(0, 0, -2);
+
   if (print) {
     for (Node ni : nodes) {
 
@@ -32,10 +40,12 @@ void print_tree() {
       circle(ni.x, ni.y, r_node);
       fill(0);
 
-      translate(0, 0, 20);
-      textSize(40);
-      text(ni.label, ni.x, ni.y);
-      translate(0, 0, -20);
+      if (label_print) {
+        translate(0, 0, 20);
+        textSize(30);
+        text(ni.label, ni.x, ni.y);
+        translate(0, 0, -20);
+      }
 
       for (Node near : ni.links) {
         strokeWeight(1);
