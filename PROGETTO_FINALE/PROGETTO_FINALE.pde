@@ -35,14 +35,14 @@ int MAX_OB = 3;
 
 int sides = 6;
 
-//Variabili target 
-float xot = 200;
-float yot = 170;
+//Variabili target
+float xot = -200;
+float yot = -170;
 float r_target = 10;
 float h_target = 5;
 boolean ist_t = true;
 
-//variabili obstacle 1 
+//variabili obstacle 1
 float xo1 = 100;
 float yo1 = 100;
 float ro1 = 150;
@@ -125,6 +125,7 @@ boolean arrived = false;
 ArrayList<Node> path;
 float x1, x2, y1, y2;
 float A, B, C, D;
+boolean print = true;
 
 
 float t = 0; // timer globale
@@ -421,6 +422,13 @@ void draw() {
 
     fill(ROOMBA_GREEN);
     text("Premere ENTER per avviare l'esecuzione", 30, 170);
+  }
+  if (!selezione_ostacoli) {
+    if (print) {
+      text("Premere '0' per nascondere l'albero", 30, 30);
+    } else {
+      text("Premere '9' per visualizzare l'albero", 30, 30);
+    }
   }
 
 

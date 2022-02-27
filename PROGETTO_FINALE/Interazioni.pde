@@ -47,7 +47,7 @@ void keyPressed() {
       /* forma ostacolo  */
 
       sovrapposizione = square_compenetration(pos_xo, pos_yo, r_obs, beta_obs);
-      
+
       if (keyCode == UP) {
         r_obs  += 5;
       }
@@ -84,7 +84,7 @@ void keyPressed() {
 
 
       sovrapposizione = square_compenetration(pos_xo, pos_yo, r_obs, beta_obs);
-      
+
 
       if (keyCode == SHIFT && !(sovrapposizione)) {
 
@@ -96,6 +96,17 @@ void keyPressed() {
 
         semaforo_obs = 0;
       }
+    }
+  }
+
+  if (key == '0') {
+    if (print) {
+      print = false;
+    }
+  }
+  if (key == '9') {
+    if (!print) {
+      print = true;
     }
   }
 }

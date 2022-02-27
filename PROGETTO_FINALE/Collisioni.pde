@@ -166,11 +166,11 @@ int is_in_obstacle(float x_0, float y_0) {
     }
     if (abs(x_1) <= ((temp)/2 + tol) && abs(y_1) <= ((temp)/2 + tol)) {
       //controllo sull'ostacolo aumentato, tranne nel caso del target
-      println("ob ID = ", ob.getID());
+      //println("ob ID = ", ob.getID());
       return ob.getID();
     }
   }
-  println("ob ID = ", -1);
+  //println("ob ID = ", -1);
 
   return -1;
 }
