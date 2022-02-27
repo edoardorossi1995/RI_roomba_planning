@@ -16,7 +16,7 @@ float[] intersectionLine(float x1, float y1, float x2, float y2, float x3, float
   //l'intersezione non può stare nell'origine della seconda retta (che per come
   //passiamo i parametri noi è il raggio laser)
 
-  if (t >=0 && t <= 1 && u >= 0.05 && u <= 1) {
+  if (t >=0 && t <= 1 && u >= 0.01 && u <= 1) {
 
     ret[0] = 1;
     ret[1] = x1 + (t * (x2-x1));
@@ -150,21 +150,27 @@ boolean min_distance(float x1, float y1, float x2, float y2) {
 //dell'oggetto all'interno di cui si trova, oppure -1 se non appartiene a nessun oggetto
 
 int is_in_obstacle(float x_0, float y_0) {
-  float x_1, y_1, beta, px, py;
-  float tol = 1.0; //valore di tolleranza numerica (perché sin e cos sono approx)
+  float x_1, y_1, beta, px, py, temp ;
+  float tol = 0.5; //valore di tolleranza numerica (perché sin e cos sono approx)
   for (Obstacle ob : obstacle_ArrayList) {      //x_1,y_1 sono le coordinate del punto rispetto al SR dell'oggetto ob
     beta = ob.phi;
     px = ob.pos_x_obs;
     py = ob.pos_y_obs;
     x_1 = cos(beta)*(x_0 - px) + sin(beta)*(y_0 - py);
     y_1 = cos(beta)*(y_0 - py) + sin(beta)*(px - x_0);
-    if (abs(x_1) <= ((ob.r_obs + r_r)/2 + tol) && abs(y_1) <= ((ob.r_obs + r_r)/2 + tol)) {
-      //controllo sull'ostacolo aumentato
-      println("ob ID = ",ob.getID());
+    if (!ob.is_t) {
+      //se l'ostacolo non è il target
+      temp = ob.r_obs + r_r;
+    } else {
+      temp = ob.r_obs;
+    }
+    if (abs(x_1) <= ((temp)/2 + tol) && abs(y_1) <= ((temp)/2 + tol)) {
+      //controllo sull'ostacolo aumentato, tranne nel caso del target
+      println("ob ID = ", ob.getID());
       return ob.getID();
     }
   }
-        println("ob ID = ",-1);
+  println("ob ID = ", -1);
 
   return -1;
 }

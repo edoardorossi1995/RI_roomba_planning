@@ -35,18 +35,21 @@ int MAX_OB = 3;
 
 int sides = 6;
 
+//Variabili target 
 float xot = 200;
-float yot = 150;
+float yot = 170;
 float r_target = 10;
 float h_target = 5;
 boolean ist_t = true;
 
+//variabili obstacle 1 
 float xo1 = 100;
 float yo1 = 100;
 float ro1 = 150;
 float ho1 = 10;
 boolean is_target1 = false;
 
+//variabili obstacle 2
 float xo2 = -100;
 float yo2 = -100;
 float ro2 = 90;
@@ -351,6 +354,7 @@ void draw() {
               C = (6*ti+3*Dt)/(pow(Dt, 3));
               D = -2/(pow(Dt, 3));
             } else if (j == (path.size() - 1)) {
+              print_tree();
 
               /* se sono arrivato all'ultimo nodo dell'array path */
 

@@ -44,21 +44,26 @@ boolean scan(float x, float y, float len_max, color colore) {    //x,y coordinat
   yi_0 = yi + y;
 
   detected_obs = is_in_obstacle(xi_0, yi_0);        // ID dell'ostacolo su cui 'poggia' il laser
-  
+  fill(200, 0, 0);
+
+  translate(0,0,10);
+  //text(detected_obs, 20, 20);
+  text(is_in_obstacle(x, y), 20, 35);
+  translate(0,0,-10);
 
   if (is_in_obstacle(x, y) == detected_obs && (detected_obs != -1)) {        
     /* se il laser e l'oggetto si trovano lungo 
-    i lati dello stesso oggetto, same_obstacle è true */
+     i lati dello stesso oggetto, same_obstacle è true */
     same_obstacle = true;
   } else {
     same_obstacle = false;
   }
-  
-  
+
+
 
   // laser
   if (!same_obstacle) {
-    stroke(180,0,0);
+    stroke(180, 0, 0);
     circle(xi, yi, 5);
     stroke(180, 0, 0);
     strokeWeight(2);
@@ -66,21 +71,20 @@ boolean scan(float x, float y, float len_max, color colore) {    //x,y coordinat
     stroke(0, 0, 255);
     detect_vert(xi_0, yi_0);
   }
-  
-  if (detected_obs == id_target) {
+
+  if (detected_obs == id_target) { 
     //popMatrix();
     vertex_found = true;
     return true;
-
   }
-  
+
   stroke(255);
   noStroke();
   popMatrix(); //mi riporto alle coordinate inerziali
 
   fill(0);
   alpha = (alpha + (2*PI)/num_iter) %(2*PI);
-  
+
   return false;
 }
 
