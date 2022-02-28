@@ -91,7 +91,7 @@ boolean selezione_ostacoli = true;
 
 //variabili scanner
 boolean s = false;   //variabile scanner
-int num_iter = 900;
+int num_iter = 2500;
 float start_alpha = (2*PI)/num_iter;
 float alpha = start_alpha;
 float laser_length = 600*sqrt(2);
