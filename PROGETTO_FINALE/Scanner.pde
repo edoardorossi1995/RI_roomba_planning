@@ -34,7 +34,6 @@ boolean scan(float x, float y, float len_max, color colore) {    //x,y coordinat
 
     //println(xi, yi);
   } else {
-    //println("wall");
     //intersection_wall[0];  dal momento che se non interseca un ostacolo  SICURAMENTE ci sarà un intersezione col bordo
     xi = intersection_wall[1];
     yi = intersection_wall[2];
@@ -46,10 +45,7 @@ boolean scan(float x, float y, float len_max, color colore) {    //x,y coordinat
   detected_obs = is_in_obstacle(xi_0, yi_0);        // ID dell'ostacolo su cui 'poggia' il laser
   fill(200, 0, 0);
 
-  translate(0,0,10);
-  //text(detected_obs, 20, 20);
-  text(is_in_obstacle(x, y), 20, 35);
-  translate(0,0,-10);
+ 
 
   if (is_in_obstacle(x, y) == detected_obs && (detected_obs != -1)) {        
     /* se il laser e l'oggetto si trovano lungo 

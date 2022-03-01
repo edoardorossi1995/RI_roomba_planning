@@ -74,11 +74,6 @@ int semaforo_obs = 0;
 boolean sovrapposizione = false;
 
 
-//float[] x_obs = {xot, xo1, xo2, xo3};
-//float[] y_obs = {yot, yo1, yo2, yo3};
-//float[] r_obs = {r_target, ro1, ro2, ro3};
-//float[] h_obs = {h_target, ho1, ho2, ho3};
-
 ArrayList<Obstacle> obstacle_ArrayList= new ArrayList<Obstacle>();
 
 int id_target = 0;

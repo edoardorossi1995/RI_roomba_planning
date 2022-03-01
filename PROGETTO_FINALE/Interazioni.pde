@@ -86,8 +86,8 @@ void keyPressed() {
 
 
       sovrapposizione = square_compenetration(pos_xo, pos_yo, r_obs, beta_obs);
-
-
+      
+      
       if (keyCode == SHIFT && !(sovrapposizione)) {
 
         /* instansiazione dell'ostacolo */
