@@ -201,6 +201,13 @@ boolean square_compenetration(float pos_xo, float pos_yo, float r_obs, float bet
 
   boolean v1 = false;
 
+  for (int k = 0; k < vert_ghost_obs.length; k++) {
+    if (abs(vert_ghost_obs[k]) > floor_x/2) {
+      v1 = true;
+      return v1;
+    }
+  }
+
   for (int i = 0; i < 8; i=i+2) {
     if (is_in_obstacle(vert_ghost_obs[i], vert_ghost_obs[i+1]) != -1 ) {
       v1 = true;
@@ -227,6 +234,8 @@ boolean square_compenetration(float pos_xo, float pos_yo, float r_obs, float bet
       }
     }
   }
+  
+  
 
   return v1;
 }

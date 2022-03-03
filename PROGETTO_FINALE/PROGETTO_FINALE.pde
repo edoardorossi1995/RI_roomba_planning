@@ -8,8 +8,8 @@
   1) fase di posizionamento ostacoli, regolata dal token booleano 'selezione_ostacoli'
   2) fase di planning (!selezione_ostacoli)
  
-  In particolare il planning è articolato come segue:
  
+  In particolare il planning è articolato come segue:
  
   - fase di scan e individuazione del target, fino al verificarsi di una condizione tra target trovato o ciclo di scan di 2*PI terminato (token 'token')
       -per ogni terna di punti tali che le rette passanti per i punti 1,2 e 2,3 ha una differenza di pendenza sufficiente, si determina un vertice
@@ -26,9 +26,11 @@
    
     !ATTENZIONE!
     I parametri modificabili per testare eventuali esecuzioni sono i float xot, yot (nel blocco di variabili globali "variabili target") per modificare la 
-    posizione del target. Gli ostacoli invece si possono aggiungere facilmente una volta eseguito il codice (tutte le istruzioni saranno visibili a schermo). 
+    posizione del target. Gli ostacoli invece si possono aggiungere facilmente una volta che il codice è in esecuzione (tutte le istruzioni saranno visibili a schermo). 
     Qualora si desiderasse modificare la posizione del target, ricordiamo che la mappa ha una dimensione di 600x600, con sistema di riferimento al centro (evidenziato
     dagli assi cartesiani, in terna sinistrorsa). La mappa si trova sugli assi x,y.
+    Per modificare la posizione iniziale del robot, i parametri da modificare sono i float pos_x_r, pos_y_r (nel blocco di varibili globali "roomba").
+    Tutti e quattro i parametri sono ulteriormente indicati con frecce.
    
    @valeriofamoso @edoardorossi
    
@@ -125,8 +127,8 @@ boolean vertex_found = false;
 
 //roomba
 PShape roomba;
-float pos_x_r = -180;
-float pos_y_r = 100;
+float pos_x_r = -180;          //  <====
+float pos_y_r = 100;           //  <====
 float r_r = 27;  //stima del diametro del roomba, con tolleranza, per evitare le collisioni
 
 //parametri tree & movimento
@@ -181,10 +183,8 @@ void setup() {
   //roomba = loadShape("iRobot_iCreate.obj");
 
   Node first_root = new Node("source", x_home, y_home);
-  //Node target = new Node("target", xot, yot);
   nodes = new ArrayList<Node>();
   tree = new Tree(first_root);
-  visited_nodes = new ArrayList<Node>();
   current_node = first_root;
 }
 
@@ -338,10 +338,7 @@ void draw() {
         //scan terminato, target non trovato
 
         if (!arrived) {
-
-          //for (Node n : path) {
-          //  println(n.label);
-          //}
+      
 
           print_tree();
 
