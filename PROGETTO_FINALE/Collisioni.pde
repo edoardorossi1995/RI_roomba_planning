@@ -1,6 +1,3 @@
-/* la funzione collision() ritorna false se NON ci sono collisioni.
- Dunque il movimento sarà lecito se effettivamente il ritorno sarà negativo */
-
 
 
 float[] intersectionLine(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) {
@@ -95,7 +92,7 @@ float[] intersectionObstacles(float x, float y, float len_x, float len_y) {
     /*il seguente blocco di controllo verifica se c'è un'intersezione di ritorno dalle intersectionLine con i contorni degli ostacoli.
      in particolare se la 0esima posizione sugli array è pari a 1, significa che c'è collisione, e le variabili globali intersectionX e intersection Y
      verranno impostate pari ai float in posizione 1 e 2. poi, tale valore sarà confrontato con i ritorni dalle collisioni successive, per tenere
-     in memoria solamente la collisione con il bordo più vicino al roomba */
+     in memoria solamente la collisione con il bordo più vicino al robot */
 
     sx = intersectionLine(o.vert_SR0_ph[0] -x, o.vert_SR0_ph[1] -y, o.vert_SR0_ph[4] -x, o.vert_SR0_ph[5] - y, 0, 0, len_x, len_y);
     if (sx[0]==1) {
@@ -146,15 +143,18 @@ boolean min_distance(float x1, float y1, float x2, float y2) {
 
 
 
-//funzione che, prese in ingresso le coordinate inerziali di un punto, resistuisce l'id
-//dell'oggetto all'interno di cui si trova, oppure -1 se non appartiene a nessun oggetto
+/* funzione che, prese in ingresso le coordinate inerziali di un punto, resistuisce l'id
+   dell'oggetto all'interno di cui si trova, oppure -1 se non appartiene a nessun oggetto */
 
 int is_in_obstacle(float x_0, float y_0) {
-
+  
+  //x_1,y_1 sono le coordinate del punto rispetto al SR dell'oggetto ob
   float x_1, y_1, beta, px, py, temp ;
-  float tol = 1.5; //valore di tolleranza numerica (perché sin e cos sono approx)
+  
+  //valore di tolleranza numerica (perché sin e cos sono approssimati)
+  float tol = 1.5;   
 
-  for (Obstacle ob : obstacle_ArrayList) {      //x_1,y_1 sono le coordinate del punto rispetto al SR dell'oggetto ob
+  for (Obstacle ob : obstacle_ArrayList) {      
     beta = ob.phi;
     px = ob.pos_x_obs;
     py = ob.pos_y_obs;

@@ -1,10 +1,37 @@
 
-/*  PROGETTO ROBOTICA INDUSTRIALE: pianificazione del moto di un robot in una mappa non nota, tramite realizzazione di un grafo di visibilità.
+/*  
+  **** Processing PROGETTO ROBOTICA INDUSTRIALE: pianificazione del moto di un robot in una mappa non nota, tramite realizzazione di un grafo di visibilità ****
  
- Il flusso di esecuzione è il seguente:
- - fase di scan e individuazione del target, fino al verificarsi di una condizione tra target trovato o ciclo di scan di 2*PI terminato
- - per ogni terna di punti tali che le rette passanti per i punti 1,2 e 2,3 ha una differenza di pendenza sufficiente, si determina un vertice
- - il path viene inizializzato e il controllo passa alla parte di movimento
+  I flussi di esecuzione sono regolati da token booleani (e uno a 3 valori), perciò il cambio flusso avviene mediante la negazione del token precedente.
+ 
+  Il codice presenta due flussi di esecuzione principali:
+  1) fase di posizionamento ostacoli, regolata dal token booleano 'selezione_ostacoli'
+  2) fase di planning (!selezione_ostacoli)
+ 
+  In particolare il planning è articolato come segue:
+ 
+ 
+  - fase di scan e individuazione del target, fino al verificarsi di una condizione tra target trovato o ciclo di scan di 2*PI terminato (token 'token')
+      -per ogni terna di punti tali che le rette passanti per i punti 1,2 e 2,3 ha una differenza di pendenza sufficiente, si determina un vertice
+          -il path viene inizializzato e il controllo passa alla parte di movimento (!token)
+             N.B. Abbiamo optato per una visita in ampiezza del grafo (albero) di visibilità, preferendo una convergenza certa al target ad una maggiore efficienza.
+ 
+  - la fase di movimento tiene conto delle seguenti circostanze:
+    1) se il target NON è stato trovato (!s)
+    2) se la posizione attuale NON è il punto finale del path inizializzato (!arrived).
+    (Se una delle precedenti condizioni si rivelasse contraria, il problema verrebbe ricondotto ad un caso più semplice)  
+   
+    Il movimento del robot avviene a 'minima energia'. Ciò è implementato prima del movimento effettivo, assieme all'inizializzazione 
+    del path, mediante il calcolo dei coefficienti A,B,C,D. La legge oraria invece è implementata tramite la funzione move(...) (in Foo_Graph).
+   
+    !ATTENZIONE!
+    I parametri modificabili per testare eventuali esecuzioni sono i float xot, yot (nel blocco di variabili globali "variabili target") per modificare la 
+    posizione del target. Gli ostacoli invece si possono aggiungere facilmente una volta eseguito il codice (tutte le istruzioni saranno visibili a schermo). 
+    Qualora si desiderasse modificare la posizione del target, ricordiamo che la mappa ha una dimensione di 600x600, con sistema di riferimento al centro (evidenziato
+    dagli assi cartesiani, in terna sinistrorsa). La mappa si trova sugli assi x,y.
+   
+   @valeriofamoso @edoardorossi
+   
  */
 
 
@@ -35,8 +62,8 @@ int MAX_OB = 3;
 int sides = 6;
 
 //Variabili target
-float xot = -110;
-float yot = -170;
+float xot = -110;        //        <=====
+float yot = -170;        //        <=====
 float r_target = 10;
 float h_target = 5;
 boolean ist_t = true;
@@ -278,7 +305,8 @@ void draw() {
         D = -2/(pow(Dt, 3));
       }
 
-      if (alpha >= 0 && alpha <start_alpha ) {  //ciclo di scan completo => cambia token per muoversi
+      if (alpha >= 0 && alpha <start_alpha ) {  
+        //ciclo di scan completo => cambia token per muoversi
 
         token = false;
         arrived = false;
@@ -308,7 +336,6 @@ void draw() {
 
       if (!s) {
         //scan terminato, target non trovato
-        //visited_nodes.add(path.get(j));
 
         if (!arrived) {
 
@@ -353,19 +380,16 @@ void draw() {
 
               /* se sono arrivato all'ultimo nodo dell'array path */
 
-              //arrived = true;
+              //arrived = true (ma è superfluo)
 
               current_node = next_node;
-              //pos_x_r = current_node.x;
-              //pos_y_r = current_node.y;
-
+      
               token = true;
             }
           }
         }
       } else {  // if (s)
 
-        //visited_nodes.add(target);
 
 
         float toll2 = 1;
@@ -374,8 +398,7 @@ void draw() {
 
 
           print_tree();
-          //println(visited_nodes.size());
-          //print_path(visited_nodes, TEMP_BOX_RED);
+          
         } else {
           print_tree();
           float[] new_pos = move(x1, y1, x2, y2);
@@ -437,8 +460,5 @@ void draw() {
 
   t++;
 
-  //println(obstacle_ArrayList.size());
-  //for (Obstacle o : obstacle_ArrayList) {
-  //  println("ID ostacolo = ", o.getID());
-  //}
+  
 }

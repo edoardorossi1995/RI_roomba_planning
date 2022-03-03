@@ -5,8 +5,7 @@ void make_tree(Node current) {
   float toll = r_r;
 
   Node n = new Node(s_lab, x_vert, y_vert);
-  /*modificare: node n non deve prendere esattamente x_vert e y_vert, ma questi con un offset per far
-   stare il roomba fuori l'ostacolo*/
+  
 
   for (Node ni : nodes) {
 
@@ -107,9 +106,7 @@ ArrayList<Node> find_path(Node source, Node dest) {
     path.add(dest);
   }
 
-  //for (Node n : path) {
-  //  println(n.label);
-  //}
+  
   return path;
 }
 
@@ -128,13 +125,3 @@ float[] move(float x1, float y1, float x2, float y2) {
 
   return new_pos;
 }
-
-//void print_path(ArrayList<Node> v_nodes, color col) {
-//  for (int i = 0; i < v_nodes.size()-2; i++) {
-
-//    strokeWeight(5);
-//    stroke(col);
-
-//    line(v_nodes.get(i).x, v_nodes.get(i).y, v_nodes.get(i+1).x, v_nodes.get(i+1).y);
-//  }
-//}

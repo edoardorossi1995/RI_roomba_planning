@@ -32,7 +32,6 @@ boolean scan(float x, float y, float len_max, color colore) {    //x,y coordinat
     xi = intersection_obstacles[1];
     yi = intersection_obstacles[2];
 
-    //println(xi, yi);
   } else {
     //intersection_wall[0];  dal momento che se non interseca un ostacolo  SICURAMENTE ci sarà un intersezione col bordo
     xi = intersection_wall[1];
